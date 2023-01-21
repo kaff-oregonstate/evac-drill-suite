@@ -44,6 +44,8 @@ The new Pub/Sub topic needs to be created and linked to the budget.
 
 ### Cloud Function
 
-The Cloud Function should be triggered by the Pub/Sub topic previously created and connected to the budget. It should have a reasonable maximum number of instances (we chose 4 initially), and should use the service account which was previously granted the necessary permissions for the desired action.
+The Cloud Function should be triggered by the Pub/Sub topic previously created and connected to the budget. It should have a reasonable maximum number of instances (we chose 4 initially), and should use the service account which was previously granted the necessary permissions for the desired action. Finally, for safety, the environment variable `GOOGLE_CLOUD_PROJECT` should be set to the GCP project name.
 
 The code for the Cloud Function can be found within this directory in `index.js` and `package.json`.
+
+The Cloud Function needs to have its "entry-point" changed to the main export function's name, in this case `stopBilling`.
