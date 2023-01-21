@@ -1,5 +1,5 @@
 name: evac_drill_console
-description: A web console which provides admin abilities over the evac_drill_app
+description: A web console which allows administration of the evac_drill_app
 
 publish_to: 'none'
 
