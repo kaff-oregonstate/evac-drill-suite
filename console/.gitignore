@@ -28,6 +28,7 @@
 build/
 coverage/
 lib/generated_plugin_registrant.dart
+*.lock
 
 # Web related
 lib/generated_plugin_registrant.dart
