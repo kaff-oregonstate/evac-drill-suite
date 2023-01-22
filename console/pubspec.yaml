@@ -46,6 +46,7 @@ dependencies:
   timeago: 3.2.2
   url_launcher: 6.1.5
   stream_transform: ^2.1.0
+  package_info_plus: ^3.0.2
 
 dependency_overrides:
   rxdart: 0.27.4

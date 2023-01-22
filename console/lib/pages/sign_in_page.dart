@@ -4,6 +4,7 @@ import 'package:evac_drill_console/nav/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 // FIXME: old url
@@ -201,6 +202,7 @@ class _AuthGateState extends State<AuthGate> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   AuthMode mode = AuthMode.requestLink;
+  String? version;
 
   String log = '';
 
@@ -221,6 +223,11 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
+  void getVersion() {
+    PackageInfo.fromPlatform()
+        .then((packageInfo) => setState(() => version = packageInfo.version));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -230,6 +237,7 @@ class _AuthGateState extends State<AuthGate> {
       });
     }
     setEmailFromHive();
+    getVersion();
   }
 
   @override
@@ -305,6 +313,8 @@ class _AuthGateState extends State<AuthGate> {
                     : Text(mode.label),
               ),
             ),
+            if (version != null) const SizedBox(height: 20),
+            if (version != null) Text('version: $version'),
           ],
         ),
       ),
