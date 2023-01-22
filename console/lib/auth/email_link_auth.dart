@@ -13,6 +13,7 @@ Future requestEmailLink(
   BuildContext context,
   String email,
 ) async {
+  // ignore: no_leading_underscores_for_local_identifiers
   final _auth = FirebaseAuth.instance;
   // check if user is in system
   final signInMethods = await _auth.fetchSignInMethodsForEmail(email);
@@ -28,7 +29,7 @@ Future requestEmailLink(
 
 Future<User?> signInWithEmailLink(
     BuildContext context, String email, String emailLink) async {
-  final signInFunc = () => FirebaseAuth.instance
+  signInFunc() => FirebaseAuth.instance
       .signInWithEmailLink(email: email.trim(), emailLink: emailLink);
   return signInOrCreateAccount(context, signInFunc, 'EMAIL_LINK');
 }

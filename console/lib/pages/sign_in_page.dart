@@ -4,10 +4,11 @@ import 'package:evac_drill_console/nav/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 // FIXME: old url
-const deploymentUrl = 'https://practice-evac-drill-console.firebaseapp.com/';
+const deploymentUrl = 'https://evac-drill-console.firebaseapp.com/';
 // 'https://practice-evac-drill-console-3.wm.r.appspot.com/';
 
 // HACK: this file is holding waaaay too much info. split into new (see below)
@@ -106,6 +107,7 @@ class ManageTeamDemo extends StatelessWidget {
                                       .doc(document.id)
                                       .delete();
                                   // then snackbar notify
+                                  // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
@@ -200,6 +202,7 @@ class _AuthGateState extends State<AuthGate> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   AuthMode mode = AuthMode.requestLink;
+  String? version;
 
   String log = '';
 
@@ -220,6 +223,11 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
+  void getVersion() {
+    PackageInfo.fromPlatform()
+        .then((packageInfo) => setState(() => version = packageInfo.version));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -229,6 +237,7 @@ class _AuthGateState extends State<AuthGate> {
       });
     }
     setEmailFromHive();
+    getVersion();
   }
 
   @override
@@ -304,6 +313,8 @@ class _AuthGateState extends State<AuthGate> {
                     : Text(mode.label),
               ),
             ),
+            if (version != null) const SizedBox(height: 20),
+            if (version != null) Text('version: $version'),
           ],
         ),
       ),
@@ -318,8 +329,9 @@ class _AuthGateState extends State<AuthGate> {
         // final authLink = _link.toString().replaceFirst(signinSnippet, '');
         if (widget.link.toString().contains('localhost')) {
           var newLink = widget.link.toString().replaceFirst(
-              'http://localhost:50181',
-              'https://practice-evac-drill-console.web.app/plannedDrills');
+              RegExp(r'http://localhost:\d{5}'),
+              // 'http://localhost:57743',
+              'https://evac-drill-console.web.app/plannedDrills');
           await _auth.signInWithEmailLink(
             email: emailController.text,
             emailLink: newLink,
@@ -351,11 +363,11 @@ class _AuthGateState extends State<AuthGate> {
               .then((value) => showAccessRequestDialog(context));
         } else {
           // add email to requested access Firebase collection
-          // TODO: add Firebase document for access request
-          await FirebaseFirestore.instance
+          FirebaseFirestore.instance
               .collection('RequestedAccess')
-              .add({'email': emailController.text}).then(
-                  (value) => showAccessRequestDialog(context));
+              .add({'email': emailController.text});
+          // ignore: use_build_context_synchronously
+          showAccessRequestDialog(context);
         }
 
         // save the email to Hive userPrefs box

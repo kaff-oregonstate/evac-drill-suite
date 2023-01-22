@@ -144,6 +144,8 @@ class _MainCompletedDrillsPageState extends State<MainCompletedDrillsPage> {
                                                 MainAxisAlignment.end,
                                             children: [
                                               DRefreshButton(onTap: () {
+                                                // TODO: Implement Dashboard Refresh Button `onTap`
+                                                // ignore: avoid_print
                                                 print('Button pressed ...');
                                               }),
                                             ],

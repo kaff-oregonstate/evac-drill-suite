@@ -9,7 +9,7 @@ class DisplaySize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [child, SizeDisplay()],
+      children: [child, const SizeDisplay()],
     );
   }
 }
@@ -19,8 +19,8 @@ class SizeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -32,12 +32,12 @@ class SizeDisplay extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '${_width} x ${_height}',
+                '$width x $height',
                 style: FlutterFlowTheme.of(context).title3.override(
                       fontFamily: 'Outfit',
                       color: FlutterFlowTheme.of(context).secondaryText,

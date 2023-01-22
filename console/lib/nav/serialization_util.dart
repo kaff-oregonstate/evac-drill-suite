@@ -1,7 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:evac_drill_console/backend/backend.dart';
-import 'package:evac_drill_console/flutter_flow/lat_lng.dart';
+// import 'package:evac_drill_console/flutter_flow/lat_lng.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 // import 'package:evac_drill_console/flutter_flow/place.dart';
@@ -71,6 +73,8 @@ String? serializeParam(
         return null;
     }
   } catch (e) {
+    // FIXME: error logging with print is bad
+    // ignore: avoid_print
     print('Error serializing parameter: $e');
     return null;
   }
@@ -157,8 +161,7 @@ dynamic deserializeParam<T>(
         return null;
       }
       return paramValues
-          .where((p) => p is String)
-          .map((p) => p as String)
+          .whereType<String>()
           .map((p) => deserializeParam(p, paramType, false, collectionName))
           .where((p) => p != null)
           .map((p) => p! as T)
@@ -195,6 +198,8 @@ dynamic deserializeParam<T>(
         return null;
     }
   } catch (e) {
+    // FIXME: error logging with print is bad
+    // ignore: avoid_print
     print('Error deserializing parameter: $e');
     return null;
   }
@@ -218,7 +223,7 @@ Future<List<T>> Function(String) getDocList<T>(
     List<String> docIds = [];
     try {
       final ids = json.decode(idsList) as Iterable;
-      docIds = ids.where((d) => d is String).map((d) => d as String).toList();
+      docIds = ids.whereType<String>().toList();
     } catch (_) {}
     return Future.wait(
       docIds.map(

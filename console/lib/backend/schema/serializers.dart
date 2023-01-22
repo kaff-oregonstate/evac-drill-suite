@@ -12,7 +12,7 @@ part 'serializers.g.dart';
 
 const kDocumentReferenceField = 'Document__Reference__Field';
 
-@SerializersFor(const [
+@SerializersFor([
   UsersRecord,
   RequestedAccessRecord,
 ])
@@ -34,56 +34,56 @@ class DocumentReferenceSerializer
     implements PrimitiveSerializer<DocumentReference> {
   final bool structured = false;
   @override
-  final Iterable<Type> types = new BuiltList<Type>([DocumentReference]);
+  final Iterable<Type> types = BuiltList<Type>([DocumentReference]);
   @override
   final String wireName = 'DocumentReference';
 
   @override
   Object serialize(Serializers serializers, DocumentReference reference,
-      {FullType specifiedType: FullType.unspecified}) {
+      {FullType specifiedType = FullType.unspecified}) {
     return reference;
   }
 
   @override
   DocumentReference deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType: FullType.unspecified}) =>
+          {FullType specifiedType = FullType.unspecified}) =>
       serialized as DocumentReference;
 }
 
 class DateTimeSerializer implements PrimitiveSerializer<DateTime> {
   @override
-  final Iterable<Type> types = new BuiltList<Type>([DateTime]);
+  final Iterable<Type> types = BuiltList<Type>([DateTime]);
   @override
   final String wireName = 'DateTime';
 
   @override
   Object serialize(Serializers serializers, DateTime dateTime,
-      {FullType specifiedType: FullType.unspecified}) {
+      {FullType specifiedType = FullType.unspecified}) {
     return dateTime;
   }
 
   @override
   DateTime deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType: FullType.unspecified}) =>
+          {FullType specifiedType = FullType.unspecified}) =>
       serialized as DateTime;
 }
 
 class LatLngSerializer implements PrimitiveSerializer<LatLng> {
   final bool structured = false;
   @override
-  final Iterable<Type> types = new BuiltList<Type>([LatLng]);
+  final Iterable<Type> types = BuiltList<Type>([LatLng]);
   @override
   final String wireName = 'LatLng';
 
   @override
   Object serialize(Serializers serializers, LatLng location,
-      {FullType specifiedType: FullType.unspecified}) {
+      {FullType specifiedType = FullType.unspecified}) {
     return location;
   }
 
   @override
   LatLng deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType: FullType.unspecified}) =>
+          {FullType specifiedType = FullType.unspecified}) =>
       serialized as LatLng;
 }
 
@@ -105,37 +105,37 @@ class FirestoreUtilDataSerializer
     implements PrimitiveSerializer<FirestoreUtilData> {
   final bool structured = false;
   @override
-  final Iterable<Type> types = new BuiltList<Type>([FirestoreUtilData]);
+  final Iterable<Type> types = BuiltList<Type>([FirestoreUtilData]);
   @override
   final String wireName = 'FirestoreUtilData';
 
   @override
   Object serialize(Serializers serializers, FirestoreUtilData firestoreUtilData,
-      {FullType specifiedType: FullType.unspecified}) {
+      {FullType specifiedType = FullType.unspecified}) {
     return firestoreUtilData;
   }
 
   @override
   FirestoreUtilData deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType: FullType.unspecified}) =>
+          {FullType specifiedType = FullType.unspecified}) =>
       serialized as FirestoreUtilData;
 }
 
 class ColorSerializer implements PrimitiveSerializer<Color> {
   @override
-  final Iterable<Type> types = new BuiltList<Type>([Color]);
+  final Iterable<Type> types = BuiltList<Type>([Color]);
   @override
   final String wireName = 'Color';
 
   @override
   Object serialize(Serializers serializers, Color color,
-      {FullType specifiedType: FullType.unspecified}) {
+      {FullType specifiedType = FullType.unspecified}) {
     return color.toCssString();
   }
 
   @override
   Color deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType: FullType.unspecified}) =>
+          {FullType specifiedType = FullType.unspecified}) =>
       fromCssColor(serialized as String);
 }
 
@@ -224,7 +224,7 @@ Map<String, dynamic> mergeNestedFields(Map<String, dynamic> data) {
   final fieldNames = nestedData.keys.map((k) => k.split('.').first).toSet();
   // Remove nested values (e.g. 'foo.bar') and merge them into a map.
   data.removeWhere((k, _) => k.contains('.'));
-  fieldNames.forEach((name) {
+  for (var name in fieldNames) {
     final mergedValues = mergeNestedFields(
       nestedData
           .where((k, _) => k.split('.').first == name)
@@ -236,7 +236,7 @@ Map<String, dynamic> mergeNestedFields(Map<String, dynamic> data) {
         ...existingValue as Map<String, dynamic>,
       ...mergedValues,
     };
-  });
+  }
   // Merge any nested maps inside any of the fields as well.
   data.where((_, v) => v is Map).forEach((k, v) {
     data[k] = mergeNestedFields(v as Map<String, dynamic>);

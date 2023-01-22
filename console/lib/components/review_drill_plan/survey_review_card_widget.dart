@@ -58,7 +58,7 @@ class _SurveyReviewCardWidgetState extends State<SurveyReviewCardWidget> {
                       children: [
                         SelectionArea(
                             child: Text(
-                          'Survey: \"${(widget.surveyIndex == 0) ? 'Pre' : 'Post'}-Drill Survey\"',
+                          'Survey: "${(widget.surveyIndex == 0) ? 'Pre' : 'Post'}-Drill Survey"',
                           style: FlutterFlowTheme.of(context).title3.override(
                                 fontFamily: 'Outfit',
                                 color:

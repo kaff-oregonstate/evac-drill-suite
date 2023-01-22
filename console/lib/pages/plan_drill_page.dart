@@ -69,11 +69,11 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      PDAppBar(),
-                      PDProgressBar(0.12),
+                      const PDAppBar(),
+                      const PDProgressBar(0.12),
                       Stack(
                         children: [
-                          PDStepsList(0),
+                          const PDStepsList(0),
                           // Body
                           Row(
                             mainAxisSize: MainAxisSize.max,
@@ -82,7 +82,7 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 24, 0, 0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -90,13 +90,13 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                     children: [
                                       Container(
                                         width: double.infinity,
-                                        constraints: BoxConstraints(
+                                        constraints: const BoxConstraints(
                                           maxWidth: 570,
                                         ),
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                               blurRadius: 4,
                                               color: Color(0x33000000),
@@ -108,26 +108,28 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                               BorderRadius.circular(16),
                                         ),
                                         child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16, 16, 16, 16),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(16, 16, 16, 16),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 16, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 16, 0, 0),
                                                 child: Container(
                                                   width: double.infinity,
-                                                  constraints: BoxConstraints(
+                                                  constraints:
+                                                      const BoxConstraints(
                                                     maxWidth: 570,
                                                   ),
-                                                  decoration: BoxDecoration(),
+                                                  decoration:
+                                                      const BoxDecoration(),
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 0, 16, 0),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            16, 0, 16, 0),
                                                     child: SelectionArea(
                                                         child: Text(
                                                       'Info',
@@ -149,8 +151,10 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                         .tertiaryColor,
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 16, 16, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                        16, 16, 16, 0),
                                                 child: TextFormField(
                                                   controller:
                                                       drillTitleController,
@@ -171,7 +175,7 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                               FontWeight.normal,
                                                         ),
                                                     hintText:
-                                                        '[\"Seaside Tsunami Evacuation Drill\"]',
+                                                        '["Seaside Tsunami Evacuation Drill"]',
                                                     hintStyle: FlutterFlowTheme
                                                             .of(context)
                                                         .title2
@@ -209,7 +213,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -220,7 +225,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -234,9 +240,9 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20, 32, 20, 12),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            20, 32, 20, 12),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -245,8 +251,10 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 16, 16, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                        16, 16, 16, 0),
                                                 child: TextFormField(
                                                   controller:
                                                       drillLocationController,
@@ -266,7 +274,7 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                               FontWeight.normal,
                                                         ),
                                                     hintText:
-                                                        '[“Seaside, Oregon\", “Klamath County, Oregon\", etc…]',
+                                                        '[“Seaside, Oregon", “Klamath County, Oregon", etc…]',
                                                     hintStyle:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -306,7 +314,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -317,7 +326,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -331,9 +341,9 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20, 32, 20, 12),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            20, 32, 20, 12),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -349,15 +359,15 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 16, 0, 0),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            16, 16, 0, 0),
                                                     child: FlutterFlowDropDown<
                                                         String>(
                                                       initialOption:
                                                           drillTypeValue ??=
                                                               'Tsunami',
-                                                      options: [
+                                                      options: const [
                                                         'Tsunami',
                                                         'Earthquake',
                                                         'Fire'
@@ -385,21 +395,21 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                       borderWidth: 2,
                                                       borderRadius: 8,
                                                       margin:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12, 4, 12, 4),
+                                                          const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                              12, 4, 12, 4),
                                                       hidesUnderline: true,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 16, 16, 0),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            16, 16, 16, 0),
                                                     child: InkWell(
                                                       onTap: () async {
                                                         if (kIsWeb) {
-                                                          final _datePickedDate =
+                                                          final datePickedDate =
                                                               await showDatePicker(
                                                             context: context,
                                                             initialDate:
@@ -409,16 +419,16 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                             lastDate:
                                                                 DateTime(2050),
                                                           );
-                                                          if (_datePickedDate !=
+                                                          if (datePickedDate !=
                                                               null) {
                                                             setState(
                                                               () => datePicked =
                                                                   DateTime(
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .year,
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .month,
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .day,
                                                               ),
                                                             );
@@ -461,9 +471,9 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                         ),
                                                         child: Padding(
                                                           padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(12,
-                                                                      5, 12, 5),
+                                                              const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                  12, 5, 12, 5),
                                                           child: Row(
                                                             mainAxisSize:
                                                                 MainAxisSize
@@ -506,8 +516,10 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                 ],
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 16, 16, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                        16, 16, 16, 0),
                                                 child: TextFormField(
                                                   controller: blurbController,
                                                   obscureText: false,
@@ -525,7 +537,7 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                                   .secondaryText,
                                                             ),
                                                     hintText:
-                                                        '[Enter blurb here... “Help us test evacuation infrastructure in Seaside!\"]',
+                                                        '[Enter blurb here... “Help us test evacuation infrastructure in Seaside!"]',
                                                     hintStyle:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -558,7 +570,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -569,7 +582,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -583,9 +597,9 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20, 32, 20, 12),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            20, 32, 20, 12),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -594,8 +608,10 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 16, 16, 16),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                        16, 16, 16, 16),
                                                 child: TextFormField(
                                                   controller:
                                                       descriptionController,
@@ -647,7 +663,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -658,7 +675,8 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 2,
@@ -672,9 +690,9 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20, 32, 20, 12),
+                                                        const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                            20, 32, 20, 12),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -898,7 +916,7 @@ class _PlanDrillPageState extends State<PlanDrillPage> {
                     ],
                   ),
                   // plan drill BottomNavButtons
-                  PDBottomNavButtons(
+                  const PDBottomNavButtons(
                     backActive: false,
                     forwardIsReview: false,
                     forwardText: 'Procedure',

@@ -66,11 +66,15 @@ Stream<List<T>> queryCollection<T>(Query collection, Serializer<T> serializer,
     query = query.limit(singleRecord ? 1 : limit);
   }
   return query.snapshots().handleError((err) {
+    // FIXME: error logging with print is bad
+    // ignore: avoid_print
     print('Error querying $collection: $err');
   }).map((s) => s.docs
       .map(
         (d) => safeGet(
           () => serializers.deserializeWith(serializer, serializedData(d)),
+          // FIXME: error logging with print is bad
+          // ignore: avoid_print
           (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
         ),
       )
@@ -93,6 +97,8 @@ Future<List<T>> queryCollectionOnce<T>(
       .map(
         (d) => safeGet(
           () => serializers.deserializeWith(serializer, serializedData(d)),
+          // FIXME: error logging with print is bad
+          // ignore: avoid_print
           (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
         ),
       )
@@ -145,10 +151,12 @@ Future<FFFirestorePage<T>> queryCollectionPage<T>(
   } else {
     docSnapshot = await query.get();
   }
-  final getDocs = (QuerySnapshot s) => s.docs
+  getDocs(QuerySnapshot s) => s.docs
       .map(
         (d) => safeGet(
           () => serializers.deserializeWith(serializer, serializedData(d)),
+          // FIXME: error logging with print is bad
+          // ignore: avoid_print
           (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
         ),
       )

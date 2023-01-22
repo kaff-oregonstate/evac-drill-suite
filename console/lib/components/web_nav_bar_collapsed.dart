@@ -192,7 +192,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_teamPage',
+                    'Main_teamMembersPage',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -239,6 +239,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                       child: InkWell(
                         onTap: () async {
                           context.pushNamed(
+                            // FIXME: link to PlanDrillPage once implemented
                             'planDrill-Info',
                             extra: <String, dynamic>{
                               kTransitionInfoKey: const TransitionInfo(

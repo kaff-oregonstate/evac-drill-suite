@@ -39,6 +39,8 @@ Future signOut() {
 Future deleteUser(BuildContext context) async {
   try {
     if (currentUser?.user == null) {
+      // FIXME: error logging with print is bad
+      // ignore: avoid_print
       print('Error: delete user attempted with no logged in user!');
       return;
     }
@@ -47,7 +49,7 @@ Future deleteUser(BuildContext context) async {
     if (e.code == 'requires-recent-login') {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
             content: Text(
                 'Too long since most recent sign in. Sign in again before deleting your account.')),
       );

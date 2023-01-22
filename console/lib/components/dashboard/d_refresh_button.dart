@@ -1,5 +1,4 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
-import 'package:evac_drill_console/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 
 class DRefreshButton extends StatelessWidget {
@@ -41,29 +40,29 @@ class DRefreshButton extends StatelessWidget {
       ),
     );
 
-    return FFButtonWidget(
-      onPressed: () {
-        onTap;
-      },
-      text: 'Refresh',
-      icon: Icon(
-        Icons.refresh_rounded,
-        color: FlutterFlowTheme.of(context).primaryColor,
-        size: 15,
-      ),
-      options: FFButtonOptions(
-        height: 40,
-        color: FlutterFlowTheme.of(context).primaryBackground,
-        textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-              fontFamily: 'Space Grotesk',
-              color: FlutterFlowTheme.of(context).primaryColor,
-            ),
-        borderSide: BorderSide(
-          color: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.5),
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-    );
+    // return FFButtonWidget(
+    //   onPressed: () {
+    //     onTap;
+    //   },
+    //   text: 'Refresh',
+    //   icon: Icon(
+    //     Icons.refresh_rounded,
+    //     color: FlutterFlowTheme.of(context).primaryColor,
+    //     size: 15,
+    //   ),
+    //   options: FFButtonOptions(
+    //     height: 40,
+    //     color: FlutterFlowTheme.of(context).primaryBackground,
+    //     textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+    //           fontFamily: 'Space Grotesk',
+    //           color: FlutterFlowTheme.of(context).primaryColor,
+    //         ),
+    //     borderSide: BorderSide(
+    //       color: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.5),
+    //       width: 1,
+    //     ),
+    //     borderRadius: BorderRadius.circular(8),
+    //   ),
+    // );
   }
 }

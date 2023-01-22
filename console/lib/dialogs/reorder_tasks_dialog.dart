@@ -61,6 +61,8 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                       size: 24,
                     ),
                     onPressed: () {
+                      // TODO: Implement close dialog `.onPressed`
+                      // ignore: avoid_print
                       print('IconButton pressed ...');
                     },
                   ),
@@ -378,6 +380,8 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                       child: FFButtonWidget(
                         onPressed: () {
+                          // TODO: Implement close dialog `.onPressed`
+                          // ignore: avoid_print
                           print('Button pressed ...');
                         },
                         text: 'Cancel',
@@ -401,6 +405,8 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                     ),
                     FFButtonWidget(
                       onPressed: () {
+                        // TODO: Implement Apply Tasks Reorder `.onPressed`
+                        // ignore: avoid_print
                         print('Button pressed ...');
                       },
                       text: 'Apply',

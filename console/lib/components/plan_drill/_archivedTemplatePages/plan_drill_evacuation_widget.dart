@@ -44,11 +44,11 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      PDAppBar(),
-                      PDProgressBar(0.62),
+                      const PDAppBar(),
+                      const PDProgressBar(0.62),
                       Stack(
                         children: [
-                          PDStepsList(3),
+                          const PDStepsList(3),
                           // Body
                           Row(
                             mainAxisSize: MainAxisSize.max,
@@ -57,24 +57,24 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 24, 0, 0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 24),
                                         child: Container(
                                           width: double.infinity,
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                             maxWidth: 570,
                                           ),
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBackground,
-                                            boxShadow: [
+                                            boxShadow: const [
                                               BoxShadow(
                                                 blurRadius: 4,
                                                 color: Color(0x33000000),
@@ -86,15 +86,16 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                 BorderRadius.circular(16),
                                           ),
                                           child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16, 0, 16, 0),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(16, 0, 16, 0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 32, 16, 4),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          16, 32, 16, 4),
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -119,6 +120,8 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                         children: [
                                                           FFButtonWidget(
                                                             onPressed: () {
+                                                              // TODO: Implement Reorder Instructions `.onPressed`
+                                                              // ignore: avoid_print
                                                               print(
                                                                   'Button pressed ...');
                                                             },
@@ -148,7 +151,7 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                                             .primaryBackground,
                                                                       ),
                                                               borderSide:
-                                                                  BorderSide(
+                                                                  const BorderSide(
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
@@ -159,21 +162,20 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        8,
-                                                                        0,
-                                                                        0,
-                                                                        0),
+                                                                const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                    8, 0, 0, 0),
                                                             child:
                                                                 FFButtonWidget(
                                                               onPressed: () {
+                                                                // TODO: Implement Add Instruction `.onPressed`
+                                                                // ignore: avoid_print
                                                                 print(
                                                                     'Button pressed ...');
                                                               },
                                                               text:
                                                                   'Add Instruction',
-                                                              icon: Icon(
+                                                              icon: const Icon(
                                                                 Icons
                                                                     .add_rounded,
                                                                 color: Colors
@@ -196,7 +198,7 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                                           .white,
                                                                     ),
                                                                 borderSide:
-                                                                    BorderSide(
+                                                                    const BorderSide(
                                                                   width: 1,
                                                                 ),
                                                                 borderRadius:
@@ -212,8 +214,10 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 0, 16, 12),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          16, 0, 16, 12),
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -224,10 +228,10 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                       Container(
                                                         width: 200,
                                                         decoration:
-                                                            BoxDecoration(),
+                                                            const BoxDecoration(),
                                                         child: SelectionArea(
                                                             child: Text(
-                                                          '\"Escape Tsunami Inundation Zone\"',
+                                                          '"Escape Tsunami Inundation Zone"',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .subtitle1
@@ -257,12 +261,13 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                                                           .size
                                                           .height *
                                                       0.66,
-                                                  decoration: BoxDecoration(),
+                                                  decoration:
+                                                      const BoxDecoration(),
                                                   child: ListView(
                                                     padding: EdgeInsets.zero,
                                                     scrollDirection:
                                                         Axis.vertical,
-                                                    children: [
+                                                    children: const [
                                                       EvacuationInstructionField(),
                                                     ],
                                                   ),
@@ -283,7 +288,7 @@ class _PlanDrillEvacuationWidgetState extends State<PlanDrillEvacuationWidget> {
                     ],
                   ),
                   // plan drill BottomNavButtons
-                  PDBottomNavButtons(
+                  const PDBottomNavButtons(
                     backActive: true,
                     backText: 'Survey Questions (1)',
                     backRoute: 'planDrill-Survey-1',
