@@ -27,7 +27,6 @@
 .pub/
 build/
 coverage/
-lib/generated_plugin_registrant.dart
 
 # Firebase Flutter integration related
 *firebase_options.dart
@@ -35,7 +34,6 @@ lib/generated_plugin_registrant.dart
 # Firebase Hosting related
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
