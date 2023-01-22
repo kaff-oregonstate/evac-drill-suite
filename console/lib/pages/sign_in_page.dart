@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 // FIXME: old url
-const deploymentUrl = 'https://practice-evac-drill-console.firebaseapp.com/';
+const deploymentUrl = 'https://evac-drill-console.firebaseapp.com/';
 // 'https://practice-evac-drill-console-3.wm.r.appspot.com/';
 
 // HACK: this file is holding waaaay too much info. split into new (see below)
@@ -319,8 +319,9 @@ class _AuthGateState extends State<AuthGate> {
         // final authLink = _link.toString().replaceFirst(signinSnippet, '');
         if (widget.link.toString().contains('localhost')) {
           var newLink = widget.link.toString().replaceFirst(
-              'http://localhost:50181',
-              'https://practice-evac-drill-console.web.app/plannedDrills');
+              RegExp(r'http://localhost:\d{5}'),
+              // 'http://localhost:57743',
+              'https://evac-drill-console.web.app/plannedDrills');
           await _auth.signInWithEmailLink(
             email: emailController.text,
             emailLink: newLink,
@@ -352,11 +353,11 @@ class _AuthGateState extends State<AuthGate> {
               .then((value) => showAccessRequestDialog(context));
         } else {
           // add email to requested access Firebase collection
-          // TODO: add Firebase document for access request
-          await FirebaseFirestore.instance
+          FirebaseFirestore.instance
               .collection('RequestedAccess')
-              .add({'email': emailController.text}).then(
-                  (value) => showAccessRequestDialog(context));
+              .add({'email': emailController.text});
+          // ignore: use_build_context_synchronously
+          showAccessRequestDialog(context);
         }
 
         // save the email to Hive userPrefs box
