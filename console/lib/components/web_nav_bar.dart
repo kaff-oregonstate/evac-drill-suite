@@ -312,7 +312,7 @@ class _WebNavBarState extends State<WebNavBar> {
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_teamPage',
+                    'Main_teamMembersPage',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
