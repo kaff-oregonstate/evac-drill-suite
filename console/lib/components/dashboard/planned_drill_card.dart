@@ -152,6 +152,7 @@ class _PlannedDrillCardState extends State<PlannedDrillCard>
               ),
               InkWell(
                 onTap: () async {
+                  // FIXME: link to PlanDrillPage once implemented
                   context.pushNamed('planDrill-Info');
                 },
                 child: Container(

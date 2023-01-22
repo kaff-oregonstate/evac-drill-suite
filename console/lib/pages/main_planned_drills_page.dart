@@ -35,6 +35,7 @@ class _MainPlannedDrillsPageState extends State<MainPlannedDrillsPage> {
         floatingActionButton: FloatingActionButton(
           tooltip: 'New drill plan',
           onPressed: () async {
+            // FIXME: link to PlanDrillPage once implemented
             context.pushNamed('planDrill-Info');
           },
           backgroundColor: FlutterFlowTheme.of(context).primaryColor,

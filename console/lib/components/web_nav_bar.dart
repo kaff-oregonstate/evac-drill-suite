@@ -374,6 +374,7 @@ class _WebNavBarState extends State<WebNavBar> {
                       child: InkWell(
                         onTap: () async {
                           context.pushNamed(
+                            // FIXME: link to PlanDrillPage once implemented
                             'planDrill-Info',
                             extra: <String, dynamic>{
                               kTransitionInfoKey: const TransitionInfo(
