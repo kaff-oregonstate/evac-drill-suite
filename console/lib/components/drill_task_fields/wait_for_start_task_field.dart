@@ -147,7 +147,7 @@ class _WaitForStartTaskFieldState extends State<WaitForStartTaskField> {
                     ),
                     FlutterFlowDropDown<String>(
                       initialOption: dropDownValue ??= 'Self-Start',
-                      options: ['Self-Start', 'Coordinator Signal Start'],
+                      options: const ['Self-Start', 'Coordinator Signal Start'],
                       onChanged: (val) => setState(() => dropDownValue = val),
                       width: 124,
                       height: 50,

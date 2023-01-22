@@ -40,7 +40,7 @@ class PDBottomNavButtons extends StatelessWidget {
                     backText!,
                     backRoute!,
                   )
-                : InactiveLeftNavButton(),
+                : const InactiveLeftNavButton(),
           ),
         ),
         Positioned(
@@ -50,9 +50,9 @@ class PDBottomNavButtons extends StatelessWidget {
             padding: EdgeInsetsDirectional.fromSTEB(
                 0, 0, _sideSpacing, _bottomSpacing),
             child: forwardIsReview
-                ? ReviewNavButton()
+                ? const ReviewNavButton()
                 : (forwardIsPublish != null && forwardIsPublish!)
-                    ? PublishNavButton()
+                    ? const PublishNavButton()
                     : RightNavButton(
                         forwardText!,
                         forwardRoute!,
@@ -90,7 +90,7 @@ class RightNavButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -133,7 +133,7 @@ class ReviewNavButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).primaryColor,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 4,
               color: Color(0x33000000),
@@ -147,7 +147,7 @@ class ReviewNavButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -206,7 +206,7 @@ class ActiveLeftNavButton extends StatelessWidget {
               size: 48,
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +254,7 @@ class InactiveLeftNavButton extends StatelessWidget {
             size: 48,
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +290,7 @@ class PublishNavButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryColor,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             blurRadius: 4,
             color: Color(0x33000000),
@@ -301,12 +301,12 @@ class PublishNavButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(12, 6, 12, 6),
+        padding: const EdgeInsetsDirectional.fromSTEB(12, 6, 12, 6),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
               child: Icon(
                 Icons.cloud_upload_rounded,
                 color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -314,7 +314,7 @@ class PublishNavButton extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 8, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 8, 0),
               child: Text(
                 'Publish Drill',
                 style: FlutterFlowTheme.of(context).title1.override(

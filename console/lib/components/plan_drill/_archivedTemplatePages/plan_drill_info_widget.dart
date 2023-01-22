@@ -175,7 +175,7 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                               FontWeight.normal,
                                                         ),
                                                     hintText:
-                                                        '[\"Seaside Tsunami Evacuation Drill\"]',
+                                                        '["Seaside Tsunami Evacuation Drill"]',
                                                     hintStyle: FlutterFlowTheme
                                                             .of(context)
                                                         .title2
@@ -274,7 +274,7 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                               FontWeight.normal,
                                                         ),
                                                     hintText:
-                                                        '[“Seaside, Oregon\", “Klamath County, Oregon\", etc…]',
+                                                        '[“Seaside, Oregon", “Klamath County, Oregon", etc…]',
                                                     hintStyle:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -367,7 +367,7 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                       initialOption:
                                                           drillTypeValue ??=
                                                               'Tsunami',
-                                                      options: [
+                                                      options: const [
                                                         'Tsunami',
                                                         'Earthquake',
                                                         'Fire'
@@ -409,7 +409,7 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                     child: InkWell(
                                                       onTap: () async {
                                                         if (kIsWeb) {
-                                                          final _datePickedDate =
+                                                          final datePickedDate =
                                                               await showDatePicker(
                                                             context: context,
                                                             initialDate:
@@ -419,16 +419,16 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                             lastDate:
                                                                 DateTime(2050),
                                                           );
-                                                          if (_datePickedDate !=
+                                                          if (datePickedDate !=
                                                               null) {
                                                             setState(
                                                               () => datePicked =
                                                                   DateTime(
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .year,
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .month,
-                                                                _datePickedDate
+                                                                datePickedDate
                                                                     .day,
                                                               ),
                                                             );
@@ -537,7 +537,7 @@ class _PlanDrillInfoWidgetState extends State<PlanDrillInfoWidget> {
                                                                   .secondaryText,
                                                             ),
                                                     hintText:
-                                                        '[Enter blurb here... “Help us test evacuation infrastructure in Seaside!\"]',
+                                                        '[Enter blurb here... “Help us test evacuation infrastructure in Seaside!"]',
                                                     hintStyle:
                                                         FlutterFlowTheme.of(
                                                                 context)

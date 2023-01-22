@@ -55,7 +55,7 @@ class _PracticeEvacReviewCardWidgetState
                       children: [
                         SelectionArea(
                             child: Text(
-                          'Practice Evacuation: \"Escape Tsunami Inund…\"',
+                          'Practice Evacuation: "Escape Tsunami Inund…"',
                           style: FlutterFlowTheme.of(context).title3.override(
                                 fontFamily: 'Outfit',
                                 color:

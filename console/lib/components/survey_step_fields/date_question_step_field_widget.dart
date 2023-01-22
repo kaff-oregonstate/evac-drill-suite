@@ -237,19 +237,19 @@ class _DateQuestionStepFieldWidgetState
                       child: InkWell(
                         onTap: () async {
                           if (kIsWeb) {
-                            final _datePicked1Date = await showDatePicker(
+                            final datePicked1Date = await showDatePicker(
                               context: context,
                               initialDate: getCurrentTimestamp,
                               firstDate: getCurrentTimestamp,
                               lastDate: DateTime(2050),
                             );
 
-                            if (_datePicked1Date != null) {
+                            if (datePicked1Date != null) {
                               setState(
                                 () => datePicked1 = DateTime(
-                                  _datePicked1Date.year,
-                                  _datePicked1Date.month,
-                                  _datePicked1Date.day,
+                                  datePicked1Date.year,
+                                  datePicked1Date.month,
+                                  datePicked1Date.day,
                                 ),
                               );
                             }
@@ -312,19 +312,19 @@ class _DateQuestionStepFieldWidgetState
                       child: InkWell(
                         onTap: () async {
                           if (kIsWeb) {
-                            final _datePicked2Date = await showDatePicker(
+                            final datePicked2Date = await showDatePicker(
                               context: context,
                               initialDate: getCurrentTimestamp,
                               firstDate: getCurrentTimestamp,
                               lastDate: DateTime(2050),
                             );
 
-                            if (_datePicked2Date != null) {
+                            if (datePicked2Date != null) {
                               setState(
                                 () => datePicked2 = DateTime(
-                                  _datePicked2Date.year,
-                                  _datePicked2Date.month,
-                                  _datePicked2Date.day,
+                                  datePicked2Date.year,
+                                  datePicked2Date.month,
+                                  datePicked2Date.day,
                                 ),
                               );
                             }
@@ -399,19 +399,19 @@ class _DateQuestionStepFieldWidgetState
                         child: InkWell(
                           onTap: () async {
                             if (kIsWeb) {
-                              final _datePicked3Date = await showDatePicker(
+                              final datePicked3Date = await showDatePicker(
                                 context: context,
                                 initialDate: getCurrentTimestamp,
                                 firstDate: getCurrentTimestamp,
                                 lastDate: DateTime(2050),
                               );
 
-                              if (_datePicked3Date != null) {
+                              if (datePicked3Date != null) {
                                 setState(
                                   () => datePicked3 = DateTime(
-                                    _datePicked3Date.year,
-                                    _datePicked3Date.month,
-                                    _datePicked3Date.day,
+                                    datePicked3Date.year,
+                                    datePicked3Date.month,
+                                    datePicked3Date.day,
                                   ),
                                 );
                               }

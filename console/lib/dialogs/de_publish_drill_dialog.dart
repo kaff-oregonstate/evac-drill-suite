@@ -60,6 +60,8 @@ class _DePublishDrillDialogState extends State<DePublishDrillDialog> {
                       size: 24,
                     ),
                     onPressed: () {
+                      // TODO: Implement close dialog `.onPressed`
+                      // ignore: avoid_print
                       print('IconButton pressed ...');
                     },
                   ),
@@ -125,6 +127,8 @@ class _DePublishDrillDialogState extends State<DePublishDrillDialog> {
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                       child: FFButtonWidget(
                         onPressed: () {
+                          // TODO: Implement close dialog `.onPressed`
+                          // ignore: avoid_print
                           print('Button pressed ...');
                         },
                         text: 'Not Now…',
@@ -148,6 +152,8 @@ class _DePublishDrillDialogState extends State<DePublishDrillDialog> {
                     ),
                     FFButtonWidget(
                       onPressed: () {
+                        // TODO: Implement De-Publish `.onPressed`
+                        // ignore: avoid_print
                         print('Button pressed ...');
                       },
                       text: 'Un-Publish',

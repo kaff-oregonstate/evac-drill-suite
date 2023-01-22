@@ -270,7 +270,7 @@ class _InfoReviewCardWidgetState extends State<InfoReviewCardWidget> {
                               width: 380,
                               decoration: const BoxDecoration(),
                               child: Text(
-                                'This is an Evacuation Drill that will simulate a \"near-field\" tsunami in the north-eastern Pacific (off the Oregon coast)',
+                                'This is an Evacuation Drill that will simulate a "near-field" tsunami in the north-eastern Pacific (off the Oregon coast)',
                                 style: FlutterFlowTheme.of(context).bodyText1,
                               ),
                             ),

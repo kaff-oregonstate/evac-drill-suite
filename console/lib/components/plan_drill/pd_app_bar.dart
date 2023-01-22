@@ -15,7 +15,7 @@ class PDAppBar extends StatelessWidget {
         color: FlutterFlowTheme.of(context).primaryBackground,
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
+        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,19 +32,19 @@ class PDAppBar extends StatelessWidget {
                     context.pop();
                   },
                   text: 'Save for Later',
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.save_rounded,
                     size: 15,
                   ),
                   options: FFButtonOptions(
                     height: 40,
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                     color: FlutterFlowTheme.of(context).primaryColor,
                     textStyle: FlutterFlowTheme.of(context).subtitle2.override(
                           fontFamily: 'Space Grotesk',
                           color: Colors.white,
                         ),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                       width: 1,
                     ),
@@ -52,7 +52,7 @@ class PDAppBar extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                   child: FFButtonWidget(
                     onPressed: () async {
                       context.pop();
@@ -65,7 +65,7 @@ class PDAppBar extends StatelessWidget {
                     ),
                     options: FFButtonOptions(
                       height: 40,
-                      padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                       color: FlutterFlowTheme.of(context).tertiaryColor,
                       textStyle: FlutterFlowTheme.of(context)
                           .subtitle2
@@ -73,7 +73,7 @@ class PDAppBar extends StatelessWidget {
                             fontFamily: 'Space Grotesk',
                             color: FlutterFlowTheme.of(context).secondaryText,
                           ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),

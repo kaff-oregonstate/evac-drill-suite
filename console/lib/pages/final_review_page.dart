@@ -45,8 +45,8 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      PDAppBar(),
-                      PDProgressBar(0.94),
+                      const PDAppBar(),
+                      const PDProgressBar(0.94),
                       Stack(
                         children: [
                           Row(
@@ -56,24 +56,24 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 24, 0, 0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 24),
                                         child: Container(
                                           width: double.infinity,
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                             maxWidth: 1140,
                                           ),
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBackground,
-                                            boxShadow: [
+                                            boxShadow: const [
                                               BoxShadow(
                                                 blurRadius: 4,
                                                 color: Color(0x33000000),
@@ -85,15 +85,16 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                                                 BorderRadius.circular(16),
                                           ),
                                           child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16, 0, 16, 0),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(16, 0, 16, 0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 32, 16, 4),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          16, 32, 16, 4),
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -126,7 +127,8 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                                                           .size
                                                           .height *
                                                       0.64,
-                                                  decoration: BoxDecoration(),
+                                                  decoration:
+                                                      const BoxDecoration(),
                                                   child: Scrollbar(
                                                     thumbVisibility: true,
                                                     // trackVisibility: true,
@@ -140,16 +142,16 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                                                           (context, index) {
                                                         return [
                                                           () =>
-                                                              InfoReviewCardWidget(),
+                                                              const InfoReviewCardWidget(),
                                                           () =>
-                                                              ProcedureReviewCardWidget(),
+                                                              const ProcedureReviewCardWidget(),
                                                           () =>
-                                                              SurveyReviewCardWidget(
+                                                              const SurveyReviewCardWidget(
                                                                   0),
                                                           () =>
-                                                              PracticeEvacReviewCardWidget(),
+                                                              const PracticeEvacReviewCardWidget(),
                                                           () =>
-                                                              SurveyReviewCardWidget(
+                                                              const SurveyReviewCardWidget(
                                                                   1),
                                                         ][index]();
                                                       },
@@ -172,7 +174,7 @@ class _FinalReviewPageState extends State<FinalReviewPage> {
                     ],
                   ),
                   // plan drill BottomNavButtons
-                  PDBottomNavButtons(
+                  const PDBottomNavButtons(
                     backActive: true,
                     backText: 'Edit drill plan',
                     backRoute: 'planDrill-Evacuation',

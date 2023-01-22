@@ -64,39 +64,40 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, params) =>
-          (appStateNotifier.loggedIn) ? MainPlannedDrillsPage() : SignInPage(),
+      errorBuilder: (context, params) => (appStateNotifier.loggedIn)
+          ? const MainPlannedDrillsPage()
+          : const SignInPage(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, params) => (appStateNotifier.loggedIn)
-              ? MainPlannedDrillsPage()
+              ? const MainPlannedDrillsPage()
               : SignInPage(params: params),
           routes: [
             FFRoute(
               name: 'Main_plannedDrills',
               path: 'plannedDrills',
               requireAuth: true,
-              builder: (context, params) => MainPlannedDrillsPage(),
+              builder: (context, params) => const MainPlannedDrillsPage(),
             ),
             FFRoute(
               name: 'Main_publishedDrills',
               path: 'publishedDrills',
               requireAuth: true,
-              builder: (context, params) => MainPublishedDrillsPage(),
+              builder: (context, params) => const MainPublishedDrillsPage(),
             ),
             FFRoute(
               name: 'Main_completedDrills',
               path: 'completedDrills',
               requireAuth: true,
-              builder: (context, params) => MainCompletedDrillsPage(),
+              builder: (context, params) => const MainCompletedDrillsPage(),
             ),
             FFRoute(
               name: 'planDrill',
               path: 'planDrill',
               requireAuth: true,
-              builder: (context, params) => PlanDrillPage(),
+              builder: (context, params) => const PlanDrillPage(),
             ),
             // FFRoute(
             //   name: 'planDrill-Procedure',
@@ -126,13 +127,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'finalReview',
               path: 'finalReview',
               requireAuth: true,
-              builder: (context, params) => FinalReviewPage(),
+              builder: (context, params) => const FinalReviewPage(),
             ),
             FFRoute(
               name: 'Main_teamMembersPage',
               path: 'teamMembersPage',
               requireAuth: true,
-              builder: (context, params) => MainTeamMembersPage(),
+              builder: (context, params) => const MainTeamMembersPage(),
             ),
             // FFRoute(
             //   name: 'addTeamMembers',
@@ -399,5 +400,6 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() =>
+      const TransitionInfo(hasTransition: false);
 }
