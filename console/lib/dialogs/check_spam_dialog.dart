@@ -57,7 +57,7 @@ class CheckSpamDialog extends StatelessWidget {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 12, 4, 12, 6),
                             child: Text(
-                              'no-reply@practice-evac-drill-console.firebaseapp.com',
+                              'no-reply@evac-drill-console.firebaseapp.com',
                               style: FlutterFlowTheme.of(context)
                                   .bodyText2
                                   .override(
