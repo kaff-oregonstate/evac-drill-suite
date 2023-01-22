@@ -30,6 +30,11 @@ coverage/
 lib/generated_plugin_registrant.dart
 *.lock
 
+# Firebase Flutter integration related
+*firebase_options.dart
+
+# Firebase Hosting related
+
 # Web related
 lib/generated_plugin_registrant.dart
 
