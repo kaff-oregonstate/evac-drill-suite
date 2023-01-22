@@ -28,7 +28,6 @@
 build/
 coverage/
 lib/generated_plugin_registrant.dart
-pubspec.lock
 
 # Firebase Flutter integration related
 *firebase_options.dart
