@@ -23,9 +23,16 @@ void testSurveyStepPlan() {
   group('SurveyStepPlan.fromJson()', () {
     for (var entry in SSPX.validCases.entries) {
       final thisStepPlan = SurveyStepPlan.fromJson(entry.value);
+      // final thisType = SSPX.types[entry.key]!;
       test(
         entry.key.name,
         () => expect(thisStepPlan.runtimeType, equals(SSPX.types[entry.key])),
+
+        /// Attempting to follow guidance here:
+        /// https://dart.dev/guides/language/language-tour#getting-an-objects-type
+        /// But it doesn't work…
+        ///     Type in `isA<T>()` can't be defined programmatically?
+        // () => expect(thisStepPlan, isA<thisType>()),
       );
     }
   });
@@ -34,9 +41,9 @@ void testSurveyStepPlan() {
 /// Example JSON inputs for SurveyStepPlan
 class SSPX {
   static const Map<String, dynamic> invalidType = {
-    'type': 'afroman',
-    'title': 'Did you have to traumatize my kids?',
-    'text': 'https://www.youtube.com/watch?v=oponIfu5L3Y',
+    'type': 'TSHA',
+    'title': 'Water',
+    'text': 'https://open.spotify.com/album/6Dao9eIV6CntMa9sH2YP2B',
     'answerFormat': {
       'type': 'intexer',
       'hint': 'This question will never be asked 🤪',
