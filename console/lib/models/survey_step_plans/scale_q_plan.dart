@@ -1,7 +1,6 @@
 import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dart'
-    show SurveyStepPlan, SurveyStepType;
+    show SurveyStepPlan, SurveyStepType, Uuid;
 import 'package:evac_drill_console/models/missing_plan_param.dart';
-import 'package:uuid/uuid.dart';
 
 class ScaleQPlan implements SurveyStepPlan {
   static const SurveyStepType type = SurveyStepType.scale;

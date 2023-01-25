@@ -19,6 +19,8 @@ export 'package:evac_drill_console/models/survey_step_plans/scale_q_plan.dart';
 export 'package:evac_drill_console/models/survey_step_plans/single_choice_q_plan.dart';
 export 'package:evac_drill_console/models/survey_step_plans/text_q_plan.dart';
 
+export 'package:uuid/uuid.dart' show Uuid;
+
 /// Enumerates the types of SurveyKit Steps
 
 enum SurveyStepType {
