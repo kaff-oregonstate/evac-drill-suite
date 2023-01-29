@@ -28,6 +28,10 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
     if (json['taskID'] == null) {
       throw const FormatException('No PracticeEvacDetailsPlan.taskID??');
     }
+    if (json['actions'] == null) {
+      throw const FormatException(
+          'PracticeEvacDetails `actions` cannot be null');
+    }
     return PracticeEvacDetailsPlan(
       taskID: json['taskID'],
       title: json['title'],
@@ -53,15 +57,18 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
     if (title == null || title!.isEmpty) {
       missingParams.add(MissingPlanParam('practiceEvac.$taskID.title'));
     }
-    if (actions.isEmpty) {
-      missingParams.add(MissingPlanParam('practiceEvac.$taskID.actions'));
-    }
     if (trackingLocation == null) {
       missingParams
           .add(MissingPlanParam('practiceEvac.$taskID.trackingLocation'));
     }
+    if (actions.isEmpty || actions.length == 1) {
+      // if length == 1 then only WaitForStart, need at least one Instruction
+      missingParams.add(MissingPlanParam('practiceEvac.$taskID.actions'));
+    }
 
-    for (var i = 0; i < actions.length; i++) {
+    // can start on index = 1 as index == 0 will always be WaitForStartAction,
+    // and it cannot be missing params
+    for (var i = 1; i < actions.length; i++) {
       final instructionMissingParams = actions[i].paramsMissing();
       for (final missingParam in instructionMissingParams) {
         // HACK: what should the `field` string of a practiceEvac be for MissingPlanParam? (currently: 'practiceEvac.$taskID')
@@ -83,7 +90,7 @@ List<Map<String, dynamic>> _jsonFromList(List<EvacActionPlan> actions) {
   return actionsJsonList;
 }
 
-List<EvacActionPlan> _listFromJson(List<Map<String, dynamic>> actionsJson, id) {
+List<EvacActionPlan> _listFromJson(List<dynamic> actionsJson, id) {
   List<EvacActionPlan> actions = [];
   if (actionsJson.isNotEmpty &&
       actionsJson[0]['actionType'] != EvacActionType.waitForStart.name) {
