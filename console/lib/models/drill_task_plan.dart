@@ -6,7 +6,6 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 enum DrillTaskType {
   survey,
   reqLocPerms,
-  waitForStart,
   practiceEvac,
   travel,
   upload,

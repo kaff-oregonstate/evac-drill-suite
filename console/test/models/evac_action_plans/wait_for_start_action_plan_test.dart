@@ -77,33 +77,33 @@ void testWaitForStartActionPlan() {
 class WFSAX {
   // invalidCase
   static const Map<String, dynamic> invalidCase = {
-    'actionID': 'exampleID-abc',
     'actionType': 'instruction',
+    'actionID': 'exampleID-abc',
     'text': 'An instruction which will never be given 🤷‍♂️',
   };
   // nullID
   static const Map<String, dynamic> nullID = {
-    // 'actionID': null,
     'actionType': 'waitForStart',
+    // 'actionID': null,
     'waitType': 'self',
   };
   // // nullPETid
   // static const Map<String, dynamic> nullPETid = {
-  //   'actionID': 'exampleID-abc',
   //   'actionType': 'waitForStart',
+  //   'actionID': 'exampleID-abc',
   //   'waitType': 'self',
   //   'practiceEvacTaskID': null,
   // };
   // noWaitType
   static const Map<String, dynamic> noWaitType = {
-    'actionID': 'exampleID-abc',
     'actionType': 'waitForStart',
+    'actionID': 'exampleID-abc',
     // 'waitType': null,
   };
   // happyCase
   static const Map<String, dynamic> happyCase = {
-    'actionID': 'exampleID-abc',
     'actionType': 'waitForStart',
+    'actionID': 'exampleID-abc',
     'waitType': 'self',
   };
 }

@@ -47,8 +47,8 @@ class WaitForStartActionPlan implements EvacActionPlan {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'actionID': actionID,
       'actionType': actionType.name,
+      'actionID': actionID,
       'waitType': waitType.name,
     };
   }

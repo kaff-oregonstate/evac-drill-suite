@@ -8,7 +8,6 @@ import 'package:evac_drill_console/models/task_details_plans/survey_details_plan
     show SurveyDetailsPlan;
 import 'package:evac_drill_console/models/task_details_plans/travel_details_plan.dart';
 import 'package:evac_drill_console/models/task_details_plans/upload_details_plan.dart';
-import 'package:evac_drill_console/models/task_details_plans/wait_for_start_details_plan.dart';
 export 'package:evac_drill_console/models/task_details_plans/practice_evac_details_plan.dart'
     show PracticeEvacDetailsPlan;
 export 'package:evac_drill_console/models/task_details_plans/req_loc_perms_details_plan.dart';
@@ -16,7 +15,6 @@ export 'package:evac_drill_console/models/task_details_plans/survey_details_plan
     show SurveyDetailsPlan;
 export 'package:evac_drill_console/models/task_details_plans/travel_details_plan.dart';
 export 'package:evac_drill_console/models/task_details_plans/upload_details_plan.dart';
-export 'package:evac_drill_console/models/task_details_plans/wait_for_start_details_plan.dart';
 
 export 'package:evac_drill_console/models/missing_plan_param.dart';
 export 'package:evac_drill_console/models/drill_task_plan.dart'
@@ -38,8 +36,6 @@ abstract class TaskDetailsPlan {
         return SurveyDetailsPlan.fromJson(taskJson);
       case 'reqLocPerms':
         return ReqLocPermsDetailsPlan.fromJson(taskJson);
-      case 'waitForStart':
-        return WaitForStartDetailsPlan.fromJson(taskJson);
       case 'practiceEvac':
         return PracticeEvacDetailsPlan.fromJson(taskJson);
       case 'travel':
