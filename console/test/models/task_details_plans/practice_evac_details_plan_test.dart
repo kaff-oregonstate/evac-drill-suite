@@ -18,15 +18,17 @@ void testPracticeEvacDetailsPlan() {
         throwsFormatException),
   );
 
-  // test null instructions list passed into .fromJson
+  // test null actions list passed into .fromJson
 
-  // test empty instructions list passed into .fromJson
+  // test empty actions list passed into .fromJson
 
   // test empty case .paramsMissing()
 
-  // test instructions having missingParams case .paramsMissing()
+  // test invalid actions list passed into .fromJson
 
-  // test full instructions list passed into .fromJson
+  // test actions having missingParams case .paramsMissing()
+
+  // test full actions list passed into .fromJson
 }
 
 /// Example JSON inputs for PracticeEvacDetailsPlan
@@ -56,30 +58,42 @@ class PEDX {
     'title': 'A practice evacuation which will never be taken 🤷‍♂️',
     'details': {
       'taskID': 'exampleID-abc',
-      // 'instructionsJson': null,
+      // 'actions': null,
     },
   };
-  // emptyListMissingParams
-  static const Map<String, dynamic> emptyListMissingParams = {
+  // actionsEmptyMissingParams
+  static const Map<String, dynamic> actionsEmptyMissingParams = {
     'taskID': 'exampleID-abc',
     'taskType': 'practiceEvac',
-    'title': 'A practice evacuation which will never be taken 🤷‍♂️',
+    // 'title': 'A practice evacuation which will never be taken 🤷‍♂️',
     'details': {
       'taskID': 'exampleID-abc',
       'title': '',
-      'instructionsJson': [],
+      'actions': [],
     },
   };
-  // listMissingParams
-  static const Map<String, dynamic> listMissingParams = {
+  // invalidActions
+  static const Map<String, dynamic> invalidActions = {
     'taskID': 'exampleID-abc',
     'taskType': 'practiceEvac',
     'title': 'A practice evacuation which will never be taken 🤷‍♂️',
     'details': {
       'taskID': 'exampleID-abc',
       'title': 'An Example Practice Evacuation Title',
-      // TODO: Implement instructionsJson with missing params
-      'instructionsJson': [],
+      // TODO: Implement actions with only `instructions`
+      'actions': [],
+    },
+  };
+  // actionsMissingParams
+  static const Map<String, dynamic> actionsMissingParams = {
+    'taskID': 'exampleID-abc',
+    'taskType': 'practiceEvac',
+    'title': 'A practice evacuation which will never be taken 🤷‍♂️',
+    'details': {
+      'taskID': 'exampleID-abc',
+      'title': 'An Example Practice Evacuation Title',
+      // TODO: Implement valid actions with missing params
+      'actions': [],
     },
   };
   // happyCase
@@ -90,8 +104,8 @@ class PEDX {
     'details': {
       'taskID': 'exampleID-abc',
       'title': 'An Example Practice Evacuation Title',
-      // TODO: Implement instructionsJson happyCase
-      'instructionsJson': [],
+      // TODO: Implement actions happyCase
+      'actions': [],
     },
   };
 }

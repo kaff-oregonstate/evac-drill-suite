@@ -1,4 +1,4 @@
-import 'package:evac_drill_console/models/evac_instruction_plan.dart';
+import 'package:evac_drill_console/models/evac_action_plans/evac_action_plan.dart';
 import 'package:evac_drill_console/models/task_details_plans/task_details_plan.dart';
 
 /// Defines the task detail for DrillTaskPlan of DrillTaskType `practiceEvac`
@@ -10,13 +10,13 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
   // i.e. it isn't the same as the DrillTask(plan) title
   String? title;
   bool? trackingLocation;
-  List<EvacInstructionPlan> instructions;
+  List<EvacActionPlan> actions;
 
   PracticeEvacDetailsPlan({
     taskID,
     this.title,
     this.trackingLocation,
-    this.instructions = const [],
+    this.actions = const [],
   }) : taskID = taskID ?? const Uuid().v4();
 
   factory PracticeEvacDetailsPlan.fromJson(taskJson) {
@@ -32,7 +32,7 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
       taskID: json['taskID'],
       title: json['title'],
       trackingLocation: json['trackingLocation'],
-      instructions: _listFromJson(json['instructionsJson']),
+      actions: _listFromJson(json['actions'], json['taskID']),
     );
   }
 
@@ -42,10 +42,7 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
       'taskID': taskID,
       'title': title,
       'trackingLocation': trackingLocation,
-      // HACK: There's really no reason to wrap this twice? If we fix the app as well then we could be done with this…
-      'instructionsJson': {
-        'instructions': _jsonFromList(instructions),
-      },
+      'actions': _jsonFromList(actions),
     };
   }
 
@@ -56,16 +53,16 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
     if (title == null || title!.isEmpty) {
       missingParams.add(MissingPlanParam('practiceEvac.$taskID.title'));
     }
-    if (instructions.isEmpty) {
-      missingParams.add(MissingPlanParam('practiceEvac.$taskID.instructions'));
+    if (actions.isEmpty) {
+      missingParams.add(MissingPlanParam('practiceEvac.$taskID.actions'));
     }
     if (trackingLocation == null) {
       missingParams
           .add(MissingPlanParam('practiceEvac.$taskID.trackingLocation'));
     }
 
-    for (var i = 0; i < instructions.length; i++) {
-      final instructionMissingParams = instructions[i].paramsMissing();
+    for (var i = 0; i < actions.length; i++) {
+      final instructionMissingParams = actions[i].paramsMissing();
       for (final missingParam in instructionMissingParams) {
         // HACK: what should the `field` string of a practiceEvac be for MissingPlanParam? (currently: 'practiceEvac.$taskID')
         // FIXME: currently using both index (here: `$i`) and {instruction}`id` (there: `$id`). Choose one.
@@ -78,21 +75,23 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
   }
 }
 
-List<Map<String, dynamic>> _jsonFromList(
-    List<EvacInstructionPlan> instructions) {
-  List<Map<String, dynamic>> instructionsJsonList = [];
-  for (final instruction in instructions) {
-    instructionsJsonList.add(instruction.toJson());
+List<Map<String, dynamic>> _jsonFromList(List<EvacActionPlan> actions) {
+  List<Map<String, dynamic>> actionsJsonList = [];
+  for (final action in actions) {
+    actionsJsonList.add(action.toJson());
   }
-  return instructionsJsonList;
+  return actionsJsonList;
 }
 
-List<EvacInstructionPlan> _listFromJson(instructionsJson) {
-  final List<Map<String, dynamic>> instructionsJsonList =
-      instructionsJson['instructions'];
-  List<EvacInstructionPlan> instructions = [];
-  for (final instructionJson in instructionsJsonList) {
-    instructions.add(EvacInstructionPlan.fromJson(instructionJson));
+List<EvacActionPlan> _listFromJson(List<Map<String, dynamic>> actionsJson, id) {
+  List<EvacActionPlan> actions = [];
+  if (actionsJson.isNotEmpty &&
+      actionsJson[0]['actionType'] != EvacActionType.waitForStart.name) {
+    throw FormatException(
+        'Practice Evac Actions must begin with a `waitForStart`, but the list for task `$id` starts with a different type of EvacAction');
   }
-  return instructions;
+  for (final actionJson in actionsJson) {
+    actions.add(EvacActionPlan.fromJson(actionJson));
+  }
+  return actions;
 }
