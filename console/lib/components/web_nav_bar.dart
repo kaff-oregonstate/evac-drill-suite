@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../models/drill_plan.dart';
+
 class WebNavBar extends StatefulWidget {
   const WebNavBar({
     Key? key,
@@ -15,6 +17,7 @@ class WebNavBar extends StatefulWidget {
     this.navColorThree,
     this.navBGFour,
     this.navColorFour,
+    this.updateDashLeavingPlanDrill,
   }) : super(key: key);
 
   final Color? navBGOne;
@@ -25,6 +28,7 @@ class WebNavBar extends StatefulWidget {
   final Color? navColorThree;
   final Color? navBGFour;
   final Color? navColorFour;
+  final Function()? updateDashLeavingPlanDrill;
 
   @override
   State<WebNavBar> createState() => _WebNavBarState();
@@ -33,24 +37,22 @@ class WebNavBar extends StatefulWidget {
 class _WebNavBarState extends State<WebNavBar> {
   bool switchValue = false;
   String user = '';
+  final _auth = FirebaseAuth.instanceFor(
+    app: Firebase.app(),
+    persistence: Persistence.INDEXED_DB,
+  );
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-    initSwitchValue();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          switchValue = Theme.of(context).brightness == Brightness.light;
+        }));
+    // initSwitchValue();
     setState(() {
-      user = FirebaseAuth.instance.currentUser?.displayName ??
-          FirebaseAuth.instance.currentUser?.email ??
+      user = _auth.currentUser?.displayName ??
+          _auth.currentUser?.email ??
           'Example Name';
-    });
-  }
-
-  void initSwitchValue() async {
-    // immediately switching this is causing debug to freak out, so delay
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      switchValue = Theme.of(context).brightness == Brightness.light;
     });
   }
 
@@ -60,7 +62,7 @@ class _WebNavBarState extends State<WebNavBar> {
       width: 250,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: FFTheme.of(context).secondaryBackground,
         boxShadow: const [
           BoxShadow(
             blurRadius: 3,
@@ -87,7 +89,7 @@ class _WebNavBarState extends State<WebNavBar> {
             //   Divider(
             //     height: 24,
             //     thickness: 2,
-            //     color: FlutterFlowTheme.of(context).lineColor,
+            //     color: FFTheme.of(context).lineColor,
             //   ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(6, 8, 4, 0),
@@ -95,9 +97,9 @@ class _WebNavBarState extends State<WebNavBar> {
                   child: Text(
                 'Evacuation Drill',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).subtitle2.override(
+                style: FFTheme.of(context).subtitle2.override(
                       fontFamily: 'Space Grotesk',
-                      color: const Color(0xFFD64C06),
+                      color: FFTheme.of(context).awesomeOrange,
                     ),
               )),
             ),
@@ -107,28 +109,28 @@ class _WebNavBarState extends State<WebNavBar> {
                   child: Text(
                 'Console',
                 textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).title2.override(
+                style: FFTheme.of(context).title2.override(
                       // fontFamily: 'Outfit',
                       fontFamily: 'Space Grotesk',
                       fontWeight: FontWeight.w700,
                       lineHeight: 1,
                       fontSize: 36,
                       letterSpacing: -0.2,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: FFTheme.of(context).secondaryText,
                     ),
               )),
             ),
             Divider(
               height: 24,
               thickness: 2,
-              color: FlutterFlowTheme.of(context).lineColor,
+              color: FFTheme.of(context).lineColor,
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
               child: InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'Main_plannedDrills',
+                  context.goNamed(
+                    'Dash_plannedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -160,11 +162,10 @@ class _WebNavBarState extends State<WebNavBar> {
                               const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
                             'Planned Drills',
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorOne,
-                                    ),
+                            style: FFTheme.of(context).bodyText2.override(
+                                  fontFamily: 'Space Grotesk',
+                                  color: widget.navColorOne,
+                                ),
                           ),
                         ),
                       ],
@@ -177,8 +178,8 @@ class _WebNavBarState extends State<WebNavBar> {
               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
               child: InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'Main_publishedDrills',
+                  context.goNamed(
+                    'Dash_publishedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -210,11 +211,10 @@ class _WebNavBarState extends State<WebNavBar> {
                               const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
                             'Published Drills',
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorTwo,
-                                    ),
+                            style: FFTheme.of(context).bodyText2.override(
+                                  fontFamily: 'Space Grotesk',
+                                  color: widget.navColorTwo,
+                                ),
                           ),
                         ),
                       ],
@@ -227,8 +227,8 @@ class _WebNavBarState extends State<WebNavBar> {
               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
               child: InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'Main_completedDrills',
+                  context.goNamed(
+                    'Dash_completedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -260,11 +260,10 @@ class _WebNavBarState extends State<WebNavBar> {
                               const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
                             'Completed Drills',
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorThree,
-                                    ),
+                            style: FFTheme.of(context).bodyText2.override(
+                                  fontFamily: 'Space Grotesk',
+                                  color: widget.navColorThree,
+                                ),
                           ),
                         ),
                         if (responsiveVisibility(
@@ -278,7 +277,7 @@ class _WebNavBarState extends State<WebNavBar> {
                             width: 24,
                             height: 24,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).primaryColor,
+                              color: FFTheme.of(context).primaryColor,
                               boxShadow: const [
                                 BoxShadow(
                                   blurRadius: 3,
@@ -292,12 +291,9 @@ class _WebNavBarState extends State<WebNavBar> {
                             child: Text(
                               '3',
                               textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyText1
-                                  .override(
+                              style: FFTheme.of(context).bodyText1.override(
                                     fontFamily: 'Space Grotesk',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBtnText,
+                                    color: FFTheme.of(context).primaryBtnText,
                                   ),
                             ),
                           ),
@@ -311,8 +307,8 @@ class _WebNavBarState extends State<WebNavBar> {
               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
               child: InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'Main_teamMembersPage',
+                  context.goNamed(
+                    'Dash_teamMembersPage',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -344,11 +340,10 @@ class _WebNavBarState extends State<WebNavBar> {
                               const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
                             'Team Members',
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorFour,
-                                    ),
+                            style: FFTheme.of(context).bodyText2.override(
+                                  fontFamily: 'Space Grotesk',
+                                  color: widget.navColorFour,
+                                ),
                           ),
                         ),
                       ],
@@ -367,29 +362,43 @@ class _WebNavBarState extends State<WebNavBar> {
                     Divider(
                       height: 12,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
+                    // TODO: Make new drill button work again (MNDBWA, yikes)
                     Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
                       child: InkWell(
                         onTap: () async {
-                          context.pushNamed(
-                            // FIXME: link to PlanDrillPage once implemented
-                            'planDrill-Info',
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: const TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 0),
-                              ),
+                          if (_auth.currentUser!.email == null) {
+                            return;
+                          }
+                          await DrillPlan.newDrillPlan(
+                            _auth.currentUser!.uid,
+                            _auth.currentUser!.email!,
+                          ).then(
+                            (newDrillID) {
+                              context.pushNamed(
+                                'planDrill',
+                                params: {'drillID': newDrillID},
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: const TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
+                                },
+                              );
+                              if (widget.updateDashLeavingPlanDrill != null) {
+                                GoRouter.of(context).addListener(
+                                    widget.updateDashLeavingPlanDrill!);
+                              }
                             },
                           );
                         },
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                            color: FFTheme.of(context).secondaryBackground,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Padding(
@@ -400,8 +409,7 @@ class _WebNavBarState extends State<WebNavBar> {
                               children: [
                                 Icon(
                                   Icons.library_add_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
+                                  color: FFTheme.of(context).secondaryText,
                                   size: 24,
                                 ),
                                 Padding(
@@ -409,45 +417,9 @@ class _WebNavBarState extends State<WebNavBar> {
                                       12, 0, 0, 0),
                                   child: Text(
                                     'New Drill',
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyText2,
+                                    style: FFTheme.of(context).bodyText2,
                                   ),
                                 ),
-                                if (responsiveVisibility(
-                                  context: context,
-                                  phone: false,
-                                  tablet: false,
-                                  tabletLandscape: false,
-                                  desktop: false,
-                                ))
-                                  Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          blurRadius: 3,
-                                          color: Color(0x33000000),
-                                          offset: Offset(0, 1),
-                                        )
-                                      ],
-                                      shape: BoxShape.circle,
-                                    ),
-                                    alignment: const AlignmentDirectional(0, 0),
-                                    child: Text(
-                                      '3',
-                                      textAlign: TextAlign.center,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Space Grotesk',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                          ),
-                                    ),
-                                  ),
                               ],
                             ),
                           ),
@@ -457,11 +429,11 @@ class _WebNavBarState extends State<WebNavBar> {
                     Divider(
                       height: 12,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        color: FFTheme.of(context).secondaryBackground,
                       ),
                       child: Padding(
                         padding: const EdgeInsetsDirectional.fromSTEB(
@@ -489,8 +461,8 @@ class _WebNavBarState extends State<WebNavBar> {
                                             .fromSTEB(0, 6, 0, 6),
                                         child: Icon(
                                           Icons.brightness_2_outlined,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
+                                          color:
+                                              FFTheme.of(context).secondaryText,
                                           size: 24,
                                         ),
                                       ),
@@ -499,8 +471,7 @@ class _WebNavBarState extends State<WebNavBar> {
                                       12, 0, 0, 0),
                                   child: Text(
                                     'Brightness',
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyText2,
+                                    style: FFTheme.of(context).bodyText2,
                                   ),
                                 ),
                               ],
@@ -519,9 +490,9 @@ class _WebNavBarState extends State<WebNavBar> {
                               },
                               activeColor: const Color(0xFFD64C06),
                               inactiveTrackColor:
-                                  FlutterFlowTheme.of(context).tertiaryColor,
+                                  FFTheme.of(context).tertiaryColor,
                               inactiveThumbColor:
-                                  FlutterFlowTheme.of(context).secondaryText,
+                                  FFTheme.of(context).secondaryText,
                             ),
                           ],
                         ),
@@ -530,7 +501,7 @@ class _WebNavBarState extends State<WebNavBar> {
                     Divider(
                       height: 12,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
                     // User
                     Padding(
@@ -556,12 +527,7 @@ class _WebNavBarState extends State<WebNavBar> {
                                       TextButton(
                                           onPressed: () {
                                             // ignore: no_leading_underscores_for_local_identifiers
-                                            final _auth =
-                                                FirebaseAuth.instanceFor(
-                                              app: Firebase.app(),
-                                              persistence:
-                                                  Persistence.INDEXED_DB,
-                                            );
+
                                             _auth.signOut();
                                             Navigator.of(context).pop();
                                           },
@@ -593,12 +559,11 @@ class _WebNavBarState extends State<WebNavBar> {
                                     children: [
                                       Text(
                                         user,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
+                                        style: FFTheme.of(context).bodyText1,
                                       ),
                                       Text(
                                         'Admin',
-                                        style: FlutterFlowTheme.of(context)
+                                        style: FFTheme.of(context)
                                             .bodyText2
                                             .override(
                                               fontFamily: 'Space Grotesk',
