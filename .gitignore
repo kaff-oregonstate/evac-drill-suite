@@ -97,3 +97,7 @@ app.*.map.json
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 decrypter/.metadata
+decrypter/macos/Runner.xcodeproj/project.pbxproj
+decrypter/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+decrypter/macos/Runner/Assets.xcassets/AppIcon.appiconset/
+decrypter/pubspec.lock
