@@ -1,7 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_util.dart';
-import 'package:evac_drill_console/flutter_flow/flutter_flow_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,22 +8,24 @@ import 'package:percent_indicator/percent_indicator.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
+import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../models/drill_plan.dart';
+import 'depublish_drill_plan_dialog.dart';
 import 'download_results_dialog.dart';
 import 'drill_plan_status_icon.dart';
 import 'duplicate_drill_plan_result_dialog.dart';
 
-class CompletedDrillCard extends StatefulWidget {
-  const CompletedDrillCard(this.drillPlan, this.refreshDrillPlans, {super.key});
+class PublishedDrillCard extends StatefulWidget {
+  const PublishedDrillCard(this.drillPlan, this.refreshDrillPlans, {super.key});
 
   final DrillPlan drillPlan;
   final Function refreshDrillPlans;
 
   @override
-  State<CompletedDrillCard> createState() => _CompletedDrillCardState();
+  State<PublishedDrillCard> createState() => _PublishedDrillCardState();
 }
 
-class _CompletedDrillCardState extends State<CompletedDrillCard>
+class _PublishedDrillCardState extends State<PublishedDrillCard>
     with TickerProviderStateMixin {
   final auth = FirebaseAuth.instanceFor(
     app: Firebase.app(),
@@ -80,6 +81,7 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
       // print(result.data?.toString() ?? 'no data');
       // // ignore: avoid_print
       // print(result.data?['numOfParticipantResults'].toString() ?? 'no data');
+
       if (mounted) {
         setState(() {
           _numOfParticipants = result.data?['numOfParticipantResults'] ?? 0;
@@ -348,9 +350,29 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                     thickness: 2,
                     color: FFTheme.of(context).tertiaryColor,
                   ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'Invite Code:   ',
+                        style: FFTheme.of(context).title2.override(
+                              fontFamily: 'Outfit',
+                              color: FFTheme.of(context).secondaryText,
+                            ),
+                      ),
+                      SelectionArea(
+                        child: Text(
+                          '${drillPlan.inviteCode!.substring(0, 3)} ${drillPlan.inviteCode!.substring(3, 6)}',
+                          // '876 543',
+                          style: FFTheme.of(context).title2,
+                        ),
+                      ),
+                    ],
+                  ),
 
                   /// FIXME: can't get this to expand to bounds dynamically
-                  /// but don't want to do the whole "measure widget after laid out" shenanigan, as it's quite disgusting in Flutter…
+                  /// but don't want to do the whole "measure widget after laid out"
+                  /// shenanigan, as it's quite disgusting in Flutter…
                   if (_numOfParticipants > 0)
                     Padding(
                       padding:
@@ -376,14 +398,16 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                           Text(
                             _numParticipantsUploaded.toString(),
                             style: FFTheme.of(context).subtitle1.override(
-                                fontFamily: 'Outfit',
-                                color: FFTheme.of(context).primaryText),
+                                  fontFamily: 'Outfit',
+                                  color: FFTheme.of(context).primaryText,
+                                ),
                           ),
                           Text(
                             ' of ${_numOfParticipants.toString()} participants uploaded results so far',
                             style: FFTheme.of(context).subtitle1.override(
-                                fontFamily: 'Outfit',
-                                color: FFTheme.of(context).secondaryText),
+                                  fontFamily: 'Outfit',
+                                  color: FFTheme.of(context).secondaryText,
+                                ),
                           ),
                         ],
                       ),
@@ -395,14 +419,16 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            '(no participants joined this drill?)',
+                            '(no participants joined drill yet)',
                             style: FFTheme.of(context).subtitle1.override(
-                                fontFamily: 'Outfit',
-                                color: FFTheme.of(context).secondaryText),
+                                  fontFamily: 'Outfit',
+                                  color: FFTheme.of(context).secondaryText,
+                                ),
                           ),
                         ],
                       ),
                     ),
+
                   if (_loadingNumParticipants)
                     Padding(
                       padding: const EdgeInsets.only(top: 6, bottom: 4),
@@ -426,6 +452,7 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                       thickness: 2,
                       color: FFTheme.of(context).tertiaryColor,
                     ),
+
                   // if (userCreatedDrill && _numParticipantsUploaded > 0)
                   if (_numParticipantsUploaded > 0)
                     Center(
@@ -443,7 +470,7 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                                   'DrillResults-${drillPlan.drillID}.zip')
                               ..click();
                           } else {
-                            // FIXME: Error handling on accessResults failure
+                            // TODO: Error handling on accessResults failure
                             // ignore: avoid_print
                             print(
                                 'accessResults on drill with title "${(drillPlan.title == null || drillPlan.title!.isEmpty) ? 'no title yet' : drillPlan.title!}" and ID ${drillPlan.drillID} failed');
@@ -451,7 +478,7 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                         }),
                         icon: Icon(
                           Icons.download_rounded,
-                          color: FFTheme.of(context).secondaryText,
+                          color: FFTheme.of(context).primaryBtnText,
                           size: 24,
                         ),
                         width: double.infinity,
@@ -471,7 +498,23 @@ class _CompletedDrillCardState extends State<CompletedDrillCard>
                       color: FFTheme.of(context).secondaryText,
                     ),
                     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                      if (userCreatedDrill && _numParticipantsUploaded > 0)
+                      if (userCreatedDrill)
+                        PopupMenuItem(
+                          onTap: () {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => DePublishDrillDialog(
+                                  drillPlan,
+                                  onSuccess: widget.refreshDrillPlans,
+                                ),
+                              );
+                            });
+                          },
+                          child: const Text('DePublish Drill'),
+                        ),
+                      // if (userCreatedDrill && _numParticipantsUploaded > 0)
+                      if (_numParticipantsUploaded > 0)
                         PopupMenuItem(
                           onTap: () {
                             WidgetsBinding.instance.addPostFrameCallback((_) {
