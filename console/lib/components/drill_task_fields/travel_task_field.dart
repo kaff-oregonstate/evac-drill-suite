@@ -38,10 +38,10 @@
 //       child: Container(
 //         width: double.infinity,
 //         decoration: BoxDecoration(
-//           color: FlutterFlowTheme.of(context).primaryBackground,
+//           color: FFTheme.of(context).primaryBackground,
 //           borderRadius: BorderRadius.circular(12),
 //           border: Border.all(
-//             color: FlutterFlowTheme.of(context).secondaryBackground,
+//             color: FFTheme.of(context).secondaryBackground,
 //             width: 2,
 //           ),
 //         ),
@@ -58,7 +58,7 @@
 //                     child: SelectionArea(
 //                         child: Text(
 //                       'Location name:',
-//                       style: FlutterFlowTheme.of(context).bodyText1,
+//                       style: FFTheme.of(context).bodyText1,
 //                     )),
 //                   ),
 //                   Expanded(
@@ -68,7 +68,7 @@
 //                       obscureText: false,
 //                       decoration: InputDecoration(
 //                         hintText: '[Some hint text...]',
-//                         hintStyle: FlutterFlowTheme.of(context).bodyText2,
+//                         hintStyle: FFTheme.of(context).bodyText2,
 //                         enabledBorder: UnderlineInputBorder(
 //                           borderSide: const BorderSide(
 //                             color: Color(0x00000000),
@@ -99,9 +99,9 @@
 //                         ),
 //                         filled: true,
 //                         fillColor:
-//                             FlutterFlowTheme.of(context).secondaryBackground,
+//                             FFTheme.of(context).secondaryBackground,
 //                       ),
-//                       style: FlutterFlowTheme.of(context).bodyText1,
+//                       style: FFTheme.of(context).bodyText1,
 //                     ),
 //                   ),
 //                 ],
@@ -117,7 +117,7 @@
 //                     child: SelectionArea(
 //                         child: Text(
 //                       'Location name:',
-//                       style: FlutterFlowTheme.of(context).bodyText1,
+//                       style: FFTheme.of(context).bodyText1,
 //                     )),
 //                   ),
 //                   Expanded(
@@ -127,7 +127,7 @@
 //                       obscureText: false,
 //                       decoration: InputDecoration(
 //                         hintText: '[Some hint text...]',
-//                         hintStyle: FlutterFlowTheme.of(context).bodyText2,
+//                         hintStyle: FFTheme.of(context).bodyText2,
 //                         enabledBorder: UnderlineInputBorder(
 //                           borderSide: const BorderSide(
 //                             color: Color(0x00000000),
@@ -158,9 +158,9 @@
 //                         ),
 //                         filled: true,
 //                         fillColor:
-//                             FlutterFlowTheme.of(context).secondaryBackground,
+//                             FFTheme.of(context).secondaryBackground,
 //                       ),
-//                       style: FlutterFlowTheme.of(context).bodyText1,
+//                       style: FFTheme.of(context).bodyText1,
 //                     ),
 //                   ),
 //                 ],
@@ -182,8 +182,8 @@
 //               buttonOptions: FFButtonOptions(
 //                 width: 200,
 //                 height: 40,
-//                 color: FlutterFlowTheme.of(context).primaryColor,
-//                 textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+//                 color: FFTheme.of(context).primaryColor,
+//                 textStyle: FFTheme.of(context).subtitle2.override(
 //                       fontFamily: 'Space Grotesk',
 //                       color: Colors.white,
 //                     ),

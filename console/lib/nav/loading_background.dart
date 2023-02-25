@@ -21,7 +21,7 @@ class LoadingBackground extends StatelessWidget {
               child: Text(
                 'Evacuation Drill',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).subtitle2.override(
+                style: FFTheme.of(context).subtitle2.override(
                       fontFamily: 'Space Grotesk',
                       color: _orangt,
                     ),
@@ -32,14 +32,14 @@ class LoadingBackground extends StatelessWidget {
               child: Text(
                 'Console',
                 textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).title2.override(
+                style: FFTheme.of(context).title2.override(
                       // fontFamily: 'Outfit',
                       fontFamily: 'Space Grotesk',
                       fontWeight: FontWeight.w700,
                       lineHeight: 1,
                       fontSize: 36,
                       letterSpacing: -0.2,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: FFTheme.of(context).secondaryText,
                     ),
               ),
             ),
