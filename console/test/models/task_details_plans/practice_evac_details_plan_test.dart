@@ -334,7 +334,6 @@ class PEDX {
       'taskID': 'exampleID-abc',
       'title': 'An Example Practice Evacuation Title',
       'trackingLocation': true,
-      // TODO: Implement actions with only `instructions`
       'actions': [
         {
           'actionType': 'instruction',
