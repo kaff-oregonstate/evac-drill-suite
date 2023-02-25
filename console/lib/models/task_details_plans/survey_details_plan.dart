@@ -5,21 +5,18 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 
 class SurveyDetailsPlan implements TaskDetailsPlan {
   static const taskType = DrillTaskType.survey;
+  @override
   final String taskID;
-  // TODO: Add title field to PDSurvey (this title is displayed in the survey)
-  // i.e. it isn't the same as the DrillTask(plan) title
-  final String? title;
+  String? title;
   List<SurveyStepPlan> surveySteps;
 
   SurveyDetailsPlan({
     taskID,
     this.title,
-    // TODO: Define _defaultSurveySteps
-    // FIXME: Load _defaultSurveySteps if null is passed to this constructor
-    // (this is allowed because if an empty list is passed, it will remain empty)
-    this.surveySteps = const [],
-    // FIXME: We actually probably can't be generating the taskIDs here, they need to be from the DrillTaskPlan that's holding these details…
-  }) : taskID = taskID ?? const Uuid().v4();
+    surveySteps,
+  })  : taskID = taskID ?? const Uuid().v4(),
+        surveySteps = surveySteps ?? _defaultSurveySteps;
+  // surveySteps = surveySteps ?? const [];
 
   factory SurveyDetailsPlan.fromJson(taskJson) {
     if (taskJson['taskType'] != taskType.name) {
@@ -30,7 +27,14 @@ class SurveyDetailsPlan implements TaskDetailsPlan {
     if (json['taskID'] == null) {
       throw const FormatException('No SurveyDetailsPlan.taskID??');
     }
-    if (json['surveyKitJson'] == null) json['surveyKitJson'] = [];
+    if (json['surveyKitJson'] == null) {
+      throw const FormatException(
+          'SurveyDetails `surveyKitJson` cannot be null');
+    }
+    if (json['surveyKitJson']['steps'] == null) {
+      throw const FormatException(
+          'SurveyDetails `surveyKitJson[\'steps\']` cannot be null');
+    }
     return SurveyDetailsPlan(
       taskID: json['taskID'],
       title: json['title'],
@@ -38,12 +42,46 @@ class SurveyDetailsPlan implements TaskDetailsPlan {
     );
   }
 
+  // @override
+  // bool operator ==(Object other) {
+  //   if (other.runtimeType != SurveyDetailsPlan) {
+  //     print('other.runtimeType');
+  //     return false;
+  //   }
+  //   other as SurveyDetailsPlan;
+  //   // taskID
+  //   if (taskID != other.taskID) {
+  //     print('taskID');
+  //     return false;
+  //   }
+  //   // title
+  //   if (title != other.title) {
+  //     print('title');
+  //     return false;
+  //   }
+  //   // surveySteps
+  //   if (surveySteps.length != other.surveySteps.length) {
+  //     print('surveySteps.length');
+  //     return false;
+  //   }
+  //   for (var i = 0; i < surveySteps.length; i++) {
+  //     if (surveySteps[i] != other.surveySteps[i]) {
+  //       print('surveySteps[$i]');
+  //       return false;
+  //     }
+  //   }
+
+  //   return true;
+  // }
+
+  @override
+  String toString() => 'SurveyStepDetails: ${toJson().toString()}';
+
   @override
   Map<String, dynamic> toJson() => {
         'taskID': taskID,
         'title': title,
         'surveyKitJson': {
-          // UNDONE: Does our custom SurveyKit implementation need something specific here? Concern: Did we implement custom logic based on 'preDrillSurvey' || 'postDrillSurvey'?
           'id': title,
           'type': 'navigable',
           'steps': _jsonFromList(surveySteps),
@@ -55,10 +93,10 @@ class SurveyDetailsPlan implements TaskDetailsPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('survey.$taskID.title'));
+      missingParams.add(MissingPlanParam('survey.title'));
     }
     if (surveySteps.isEmpty) {
-      missingParams.add(MissingPlanParam('survey.$taskID.surveySteps'));
+      missingParams.add(MissingPlanParam('survey.surveySteps'));
     }
 
     // Need to modify the found MissingPlanParams to have the full field string,
@@ -68,10 +106,8 @@ class SurveyDetailsPlan implements TaskDetailsPlan {
     for (var i = 0; i < surveySteps.length; i++) {
       final stepMissingParams = surveySteps[i].paramsMissing();
       for (final missingParam in stepMissingParams) {
-        // HACK: what should the `field` string of a survey be for MissingPlanParam? (currently: 'survey.$taskID')
-        // FIXME: currently using both index (here: `$i`) and stepID (there: `$stepID`). Choose one.
         missingParams
-            .add(MissingPlanParam('survey.$taskID[$i].${missingParam.field}'));
+            .add(MissingPlanParam('survey.step[$i].${missingParam.field}'));
       }
     }
 
@@ -88,10 +124,21 @@ List<Map<String, dynamic>> _jsonFromList(List<SurveyStepPlan> surveySteps) {
 }
 
 List<SurveyStepPlan> _listFromSurveyKitJson(surveyKitJson) {
-  final List<Map<String, dynamic>> stepsJson = surveyKitJson['steps'];
+  final List<dynamic> stepsJson = surveyKitJson['steps'];
   List<SurveyStepPlan> surveySteps = [];
   for (final stepJson in stepsJson) {
     surveySteps.add(SurveyStepPlan.fromJson(stepJson));
   }
   return surveySteps;
 }
+
+List<SurveyStepPlan> _defaultSurveySteps = [
+  IntroductionStepPlan(title: 'Begin Survey'),
+  BoolQPlan(title: 'True or False?'),
+  DateQPlan(title: 'What is the date today?'),
+  IntQPlan(title: 'How old are you?'),
+  ScaleQPlan(title: 'How prepared are you to evacuate?'),
+  SingleChoiceQPlan(title: 'Yes or No?', yesChoice: 'Yes', noChoice: 'No'),
+  TextQPlan(title: 'Who invited you to this evacuation drill?'),
+  CompletionStepPlan(title: 'Complete Survey'),
+];

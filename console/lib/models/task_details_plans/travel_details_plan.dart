@@ -4,8 +4,9 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 /// (Not currently targeted for development as of Jan. 25 2023)
 
 class TravelDetailsPlan implements TaskDetailsPlan {
-  // TODO: BACKLOG: Implement TravelDetailsPlan
+  // BACKLOG: Implement TravelDetailsPlan
   static const taskType = DrillTaskType.travel;
+  @override
   final String taskID;
 
   TravelDetailsPlan({taskID}) : taskID = taskID ?? const Uuid().v4();

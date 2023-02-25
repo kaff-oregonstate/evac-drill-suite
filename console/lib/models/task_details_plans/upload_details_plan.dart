@@ -4,6 +4,7 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 
 class UploadDetailsPlan implements TaskDetailsPlan {
   static const taskType = DrillTaskType.upload;
+  @override
   final String taskID;
 
   UploadDetailsPlan({taskID}) : taskID = taskID ?? const Uuid().v4();

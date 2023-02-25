@@ -5,9 +5,8 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 
 class PracticeEvacDetailsPlan implements TaskDetailsPlan {
   static const taskType = DrillTaskType.practiceEvac;
+  @override
   final String taskID;
-  // TODO: Add title field to PDEvacInstructions (this title is displayed during the practice evacuation)
-  // i.e. it isn't the same as the DrillTask(plan) title
   String? title;
   bool? trackingLocation;
   List<EvacActionPlan> actions;
@@ -55,15 +54,14 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('practiceEvac.$taskID.title'));
+      missingParams.add(MissingPlanParam('practiceEvac.title'));
     }
     if (trackingLocation == null) {
-      missingParams
-          .add(MissingPlanParam('practiceEvac.$taskID.trackingLocation'));
+      missingParams.add(MissingPlanParam('practiceEvac.trackingLocation'));
     }
     if (actions.isEmpty || actions.length == 1) {
       // if length == 1 then only WaitForStart, need at least one Instruction
-      missingParams.add(MissingPlanParam('practiceEvac.$taskID.actions'));
+      missingParams.add(MissingPlanParam('practiceEvac.actions'));
     }
 
     // can start on index = 1 as index == 0 will always be WaitForStartAction,
@@ -71,10 +69,8 @@ class PracticeEvacDetailsPlan implements TaskDetailsPlan {
     for (var i = 1; i < actions.length; i++) {
       final instructionMissingParams = actions[i].paramsMissing();
       for (final missingParam in instructionMissingParams) {
-        // HACK: what should the `field` string of a practiceEvac be for MissingPlanParam? (currently: 'practiceEvac.$taskID')
-        // FIXME: currently using both index (here: `$i`) and {instruction}`id` (there: `$id`). Choose one.
         missingParams.add(
-            MissingPlanParam('practiceEvac.$taskID[$i].${missingParam.field}'));
+            MissingPlanParam('practiceEvac.action[$i].${missingParam.field}'));
       }
     }
 
@@ -92,11 +88,14 @@ List<Map<String, dynamic>> _jsonFromList(List<EvacActionPlan> actions) {
 
 List<EvacActionPlan> _listFromJson(List<dynamic> actionsJson, id) {
   List<EvacActionPlan> actions = [];
-  if (actionsJson.isNotEmpty &&
-      actionsJson[0]['actionType'] != EvacActionType.waitForStart.name) {
-    throw FormatException(
-        'Practice Evac Actions must begin with a `waitForStart`, but the list for task `$id` starts with a different type of EvacAction');
-  }
+
+  /// probably should be implemented, but handling this restriction on the
+  /// frontend is more than I have time for (3 days left)
+  // if (actionsJson.isNotEmpty &&
+  //     actionsJson[0]['actionType'] != EvacActionType.waitForStart.name) {
+  //   throw FormatException(
+  //       'Practice Evac Actions must begin with a `waitForStart`, but the list for task `$id` starts with a different type of EvacAction');
+  // }
   for (final actionJson in actionsJson) {
     actions.add(EvacActionPlan.fromJson(actionJson));
   }

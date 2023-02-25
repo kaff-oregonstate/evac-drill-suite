@@ -4,6 +4,7 @@ import 'package:evac_drill_console/models/task_details_plans/task_details_plan.d
 
 class ReqLocPermsDetailsPlan implements TaskDetailsPlan {
   static const taskType = DrillTaskType.reqLocPerms;
+  @override
   final String taskID;
 
   ReqLocPermsDetailsPlan({taskID}) : taskID = taskID ?? const Uuid().v4();

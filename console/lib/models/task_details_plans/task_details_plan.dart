@@ -1,4 +1,3 @@
-import 'package:evac_drill_console/models/drill_task_plan.dart';
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 import 'package:evac_drill_console/models/task_details_plans/practice_evac_details_plan.dart'
@@ -27,6 +26,8 @@ export 'package:uuid/uuid.dart' show Uuid;
 abstract class TaskDetailsPlan {
   Map<String, dynamic> toJson();
   List<MissingPlanParam> paramsMissing();
+
+  String get taskID;
 
   factory TaskDetailsPlan.fromJson(
     Map<String, dynamic> taskJson,
