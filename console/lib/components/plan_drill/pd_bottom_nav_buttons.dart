@@ -2,64 +2,88 @@ import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 
+import '../../flutter_flow/flutter_flow_widgets.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
 class PDBottomNavButtons extends StatelessWidget {
-  const PDBottomNavButtons(
-      {Key? key,
-      required this.backActive,
-      this.backText,
-      this.backRoute,
-      required this.forwardIsReview,
-      this.forwardText,
-      this.forwardRoute,
-      this.forwardIsPublish})
-      : super(key: key);
+  const PDBottomNavButtons({
+    Key? key,
+    required this.pdController,
+  }) : super(key: key);
 
-  final bool backActive;
-  final String? backText;
-  final String? backRoute;
-  final bool forwardIsReview;
-  final String? forwardText;
-  final String? forwardRoute;
-  final bool? forwardIsPublish;
+  final PDController pdController;
 
-  final _sideSpacing = 24.0;
-  final _bottomSpacing = 32.0;
+  static const _sideSpacing = 24.0;
+  static const _bottomSpacing = 32.0;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          bottom: 0,
-          left: 0,
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(
-                _sideSpacing, 0, 0, _bottomSpacing),
-            child: backActive
-                ? ActiveLeftNavButton(
-                    backText!,
-                    backRoute!,
-                  )
-                : const InactiveLeftNavButton(),
+    return Hero(
+      tag: 'PDBottomNavButtonsHeroTag',
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                  _sideSpacing, 0, 0, _bottomSpacing),
+              child: (pdController.currentPage > 0)
+                  ? ActiveLeftNavButton(
+                      pdController.steps[pdController.currentPage - 1],
+                      () => pdController.navToPrev(),
+                    )
+                  : const InactiveLeftNavButton(),
+            ),
           ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(
-                0, 0, _sideSpacing, _bottomSpacing),
-            child: forwardIsReview
-                ? const ReviewNavButton()
-                : (forwardIsPublish != null && forwardIsPublish!)
-                    ? const PublishNavButton()
-                    : RightNavButton(
-                        forwardText!,
-                        forwardRoute!,
-                      ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                  0, 0, _sideSpacing, _bottomSpacing),
+              child: (pdController.currentPage == pdController.steps.length - 1)
+                  ? ReviewNavButton(
+                      onPressed: () async {
+                        if (pdController.unsavedChanges) {
+                          await pdController.syncChanges().then((value) {
+                            context.goNamed(
+                              'viewDrillPlan',
+                              params: {
+                                'drillID': pdController.drillPlan.drillID
+                              },
+                              extra: {
+                                kTransitionInfoKey: const TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                ),
+                              },
+                            );
+                          });
+                        } else {
+                          context.goNamed(
+                            'viewDrillPlan',
+                            params: {'drillID': pdController.drillPlan.drillID},
+                            extra: {
+                              kTransitionInfoKey: const TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                              ),
+                            },
+                          );
+                        }
+                      },
+                    )
+                  : RightNavButton(
+                      pdController.steps[pdController.currentPage + 1],
+                      () => pdController.navToNext(),
+                    ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -67,54 +91,57 @@ class PDBottomNavButtons extends StatelessWidget {
 class RightNavButton extends StatelessWidget {
   const RightNavButton(
     this.forwardText,
-    this.forwardRoute, {
+    this.goToNextPage, {
     Key? key,
   }) : super(key: key);
 
   final String forwardText;
-  final String forwardRoute;
+  final Function goToNextPage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        // color: FlutterFlowTheme.of(context).secondaryBackground,
+        // color: FFTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(8),
-        onTap: () async {
-          context.goNamed(forwardRoute);
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Next step:',
-                    style: FlutterFlowTheme.of(context).bodyText2,
-                  ),
-                  Text(
-                    forwardText,
-                    style: FlutterFlowTheme.of(context).subtitle1.override(
-                          fontFamily: 'Outfit',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                        ),
-                  ),
-                ],
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            goToNextPage();
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Next step:',
+                      style: FFTheme.of(context).bodyText2,
+                    ),
+                    Text(
+                      forwardText,
+                      style: FFTheme.of(context).subtitle1.override(
+                            fontFamily: 'Outfit',
+                            color: FFTheme.of(context).secondaryText,
+                          ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Icon(
-              Icons.keyboard_arrow_right_rounded,
-              color: FlutterFlowTheme.of(context).secondaryText,
-              size: 48,
-            ),
-          ],
+              Icon(
+                Icons.keyboard_arrow_right_rounded,
+                color: FFTheme.of(context).secondaryText,
+                size: 48,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -122,54 +149,34 @@ class RightNavButton extends StatelessWidget {
 }
 
 class ReviewNavButton extends StatelessWidget {
-  const ReviewNavButton({Key? key}) : super(key: key);
+  const ReviewNavButton({required this.onPressed, super.key});
+
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        context.goNamed('planDrill-Review');
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryColor,
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 4,
-              color: Color(0x33000000),
-              offset: Offset(0, 3),
-              spreadRadius: 2,
-            )
-          ],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Save & Review',
-                    style: FlutterFlowTheme.of(context).subtitle1.override(
-                          fontFamily: 'Outfit',
-                          color: FlutterFlowTheme.of(context).primaryBtnText,
-                        ),
-                  ),
-                ],
-              ),
+    return FFButtonWidget(
+      text: 'Save & Review',
+      onPressed: onPressed,
+      icon: Icon(
+        Icons.inventory_rounded,
+        color: FFTheme.of(context).primaryBtnText,
+        size: 32,
+      ),
+      options: FFButtonOptions(
+        height: 66,
+        width: 190,
+        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+        color: FFTheme.of(context).primaryColor,
+        textStyle: FFTheme.of(context).subtitle1.override(
+              fontFamily: 'Outfit',
+              color: FFTheme.of(context).primaryBtnText,
             ),
-            Icon(
-              Icons.keyboard_arrow_right_rounded,
-              color: FlutterFlowTheme.of(context).primaryBtnText,
-              size: 48,
-            ),
-          ],
+        borderSide: const BorderSide(
+          color: Colors.transparent,
+          width: 1,
         ),
+        borderRadius: BorderRadius.circular(8),
       ),
     );
   }
@@ -178,57 +185,60 @@ class ReviewNavButton extends StatelessWidget {
 class ActiveLeftNavButton extends StatelessWidget {
   const ActiveLeftNavButton(
     this.backText,
-    this.backRoute, {
+    this.goToPrevPage, {
     Key? key,
   }) : super(key: key);
 
   final String backText;
-  final String backRoute;
+  final Function goToPrevPage;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(8),
-      onTap: () async {
-        context.goNamed(backRoute);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          // color: FlutterFlowTheme.of(context).secondaryBackground,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Icon(
-              Icons.keyboard_arrow_left_rounded,
-              color: FlutterFlowTheme.of(context).secondaryText,
-              size: 48,
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Previous step:',
-                    style: FlutterFlowTheme.of(context).bodyText2.override(
-                          fontFamily: 'Space Grotesk',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                        ),
-                  ),
-                  Text(
-                    backText,
-                    style: FlutterFlowTheme.of(context).subtitle1.override(
-                          fontFamily: 'Outfit',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                        ),
-                  ),
-                ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () {
+          goToPrevPage();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            // color: FFTheme.of(context).secondaryBackground,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Icon(
+                Icons.keyboard_arrow_left_rounded,
+                color: FFTheme.of(context).secondaryText,
+                size: 48,
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Previous step:',
+                      style: FFTheme.of(context).bodyText2.override(
+                            fontFamily: 'Space Grotesk',
+                            color: FFTheme.of(context).secondaryText,
+                          ),
+                    ),
+                    Text(
+                      backText,
+                      style: FFTheme.of(context).subtitle1.override(
+                            fontFamily: 'Outfit',
+                            color: FFTheme.of(context).secondaryText,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -242,7 +252,7 @@ class InactiveLeftNavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: FFTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -250,7 +260,7 @@ class InactiveLeftNavButton extends StatelessWidget {
         children: [
           Icon(
             Icons.keyboard_arrow_left_rounded,
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             size: 48,
           ),
           Padding(
@@ -261,16 +271,16 @@ class InactiveLeftNavButton extends StatelessWidget {
               children: [
                 Text(
                   'Previous step:',
-                  style: FlutterFlowTheme.of(context).bodyText2.override(
+                  style: FFTheme.of(context).bodyText2.override(
                         fontFamily: 'Space Grotesk',
-                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        color: FFTheme.of(context).tertiaryColor,
                       ),
                 ),
                 Text(
                   '…',
-                  style: FlutterFlowTheme.of(context).subtitle1.override(
+                  style: FFTheme.of(context).subtitle1.override(
                         fontFamily: 'Outfit',
-                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        color: FFTheme.of(context).tertiaryColor,
                       ),
                 ),
               ],
@@ -289,7 +299,7 @@ class PublishNavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).primaryColor,
+        color: FFTheme.of(context).primaryColor,
         boxShadow: const [
           BoxShadow(
             blurRadius: 4,
@@ -309,7 +319,7 @@ class PublishNavButton extends StatelessWidget {
               padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
               child: Icon(
                 Icons.cloud_upload_rounded,
-                color: FlutterFlowTheme.of(context).primaryBtnText,
+                color: FFTheme.of(context).primaryBtnText,
                 size: 38,
               ),
             ),
@@ -317,9 +327,9 @@ class PublishNavButton extends StatelessWidget {
               padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 8, 0),
               child: Text(
                 'Publish Drill',
-                style: FlutterFlowTheme.of(context).title1.override(
+                style: FFTheme.of(context).title1.override(
                       fontFamily: 'Outfit',
-                      color: FlutterFlowTheme.of(context).primaryBtnText,
+                      color: FFTheme.of(context).primaryBtnText,
                     ),
               ),
             ),
