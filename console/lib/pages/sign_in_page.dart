@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evac_drill_console/components/dev_util/testing_menu.dart';
 import 'package:evac_drill_console/dialogs/check_spam_dialog.dart';
 import 'package:evac_drill_console/nav/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-// FIXME: old url
+final FirebaseAuth _auth = FirebaseAuth.instanceFor(
+  app: Firebase.app(),
+  persistence: Persistence.INDEXED_DB,
+);
 const deploymentUrl = 'https://evac-drill-console.firebaseapp.com/';
-// 'https://practice-evac-drill-console-3.wm.r.appspot.com/';
 
 // HACK: this file is holding waaaay too much info. split into new (see below)
 
@@ -231,7 +234,7 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
-    if (FirebaseAuth.instance.isSignInWithEmailLink(Uri.base.toString())) {
+    if (_auth.isSignInWithEmailLink(Uri.base.toString())) {
       setState(() {
         mode = AuthMode.signIn;
       });
@@ -249,99 +252,107 @@ class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
     if (mode == AuthMode.signIn) {}
-    return AuthGateLayout(
-      child: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(log),
-            Text(
-              (mode == AuthMode.signIn)
-                  ? 'Just to confirm, what email are you signing in with?'
-                  : 'To sign-in to the Evacuation Drill Console, please enter your email:',
-              style: null,
-            ),
-            const SizedBox(height: 20),
-            // error banner
-            Visibility(
-                visible: error.isNotEmpty,
-                child: MaterialBanner(
-                  backgroundColor: Theme.of(context).errorColor,
-                  content: Text(error),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            error = '';
-                          });
-                        },
-                        child: const Text(
-                          'dismiss',
-                          style: TextStyle(color: Colors.white),
-                        ))
-                  ],
-                  contentTextStyle: const TextStyle(color: Colors.white),
-                  padding: const EdgeInsets.all(10),
-                )),
-            const SizedBox(height: 20),
-            // email input
-            TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                hintText: 'Email',
-                border: OutlineInputBorder(),
+    return HoverTestingMenu(
+      child: AuthGateLayout(
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(log),
+              Text(
+                (mode == AuthMode.signIn)
+                    ? 'Just to confirm, what email are you signing in with?'
+                    : 'To sign-in to the Evacuation Drill Console, please enter your email:',
+                style: null,
               ),
-              // initialValue:
-              //     (_sp != null) ? _sp!.getString('lastUsedEmail') : null,
-              validator: (value) =>
-                  // add email format validation
-                  (value != null && value.isNotEmpty) ? null : 'Required',
-            ),
-            const SizedBox(height: 20),
-            // submit button
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: isLoading
+              const SizedBox(height: 20),
+              // error banner
+              Visibility(
+                  visible: error.isNotEmpty,
+                  child: MaterialBanner(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    content: Text(error),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              error = '';
+                            });
+                          },
+                          child: const Text(
+                            'dismiss',
+                            style: TextStyle(color: Colors.white),
+                          ))
+                    ],
+                    contentTextStyle: const TextStyle(color: Colors.white),
+                    padding: const EdgeInsets.all(10),
+                  )),
+              const SizedBox(height: 20),
+              // email input
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  hintText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                // initialValue:
+                //     (_sp != null) ? _sp!.getString('lastUsedEmail') : null,
+                validator: (value) =>
+                    // FIXME: add email format validation
+                    (value != null && value.isNotEmpty) ? null : 'Required',
+                onFieldSubmitted: isLoading
                     ? null
-                    : () async => _handleAuthException(_emailLink),
-                child: isLoading
-                    ? const CircularProgressIndicator.adaptive()
-                    : Text(mode.label),
+                    : (_) async => _handleAuthException(_emailLink),
               ),
-            ),
-            if (version != null) const SizedBox(height: 20),
-            if (version != null) Text('version: $version'),
-          ],
+              const SizedBox(height: 20),
+              // submit button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: isLoading
+                      ? null
+                      : () async => _handleAuthException(_emailLink),
+                  child: isLoading
+                      ? const CircularProgressIndicator.adaptive()
+                      : Text(mode.label),
+                ),
+              ),
+              if (version != null) const SizedBox(height: 20),
+              if (version != null) Text('version: $version'),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  /// This function processes the actual URL when in a debug/preview channel
+  /// so that Firebase will believe that it is authorizing a user on the prod
+  /// domain
+  String filterDebugURL(String origLink) {
+    if (origLink.toString().contains('localhost')) {
+      return origLink.toString().replaceFirst(
+          RegExp(r'http://localhost:\d{5}'),
+          // 'http://localhost:57743',
+          'https://evac-drill-console.web.app/plannedDrills');
+    } else if (origLink.toString().contains('--')) {
+      return origLink.toString().replaceFirst(
+          RegExp(r'https://evac-drill-console--[0-9a-zA-Z\-]+web.app'),
+          'https://evac-drill-console.web.app/plannedDrills');
+    }
+    return origLink;
+  }
+
   Future<void> _emailLink() async {
     if (formKey.currentState?.validate() ?? false) {
       if (mode == AuthMode.signIn) {
-        // const consoleSnippet = 'console/#/';
-        // const signinSnippet = 'signin/#/';
-        // final authLink = _link.toString().replaceFirst(signinSnippet, '');
-        if (widget.link.toString().contains('localhost')) {
-          var newLink = widget.link.toString().replaceFirst(
-              RegExp(r'http://localhost:\d{5}'),
-              // 'http://localhost:57743',
-              'https://evac-drill-console.web.app/plannedDrills');
-          await _auth.signInWithEmailLink(
-            email: emailController.text,
-            emailLink: newLink,
-          );
-        } else {
-          await _auth.signInWithEmailLink(
-            email: emailController.text,
-            emailLink: widget.link.toString(),
-          );
-        }
+        await _auth.signInWithEmailLink(
+          email: emailController.text,
+          emailLink: filterDebugURL(widget.link.toString()),
+        );
       } else if (mode == AuthMode.requestLink) {
         // check if user is in system
         final signInMethods =
