@@ -39,7 +39,7 @@ class ScreenTooSmall extends StatelessWidget {
                             const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                         child: Text(
                           'Window Size is too Small 😅',
-                          style: FlutterFlowTheme.of(context).title1.override(
+                          style: FFTheme.of(context).title1.override(
                                 fontFamily: 'Lexend Deca',
                                 color: Colors.white,
                                 fontSize: 28,
@@ -52,7 +52,7 @@ class ScreenTooSmall extends StatelessWidget {
                             const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 36),
                         child: Text(
                           'Please expand window or enter fullscreen',
-                          style: FlutterFlowTheme.of(context).title3.override(
+                          style: FFTheme.of(context).title3.override(
                                 fontFamily: 'Lexend Deca',
                                 color: Colors.white,
                                 fontSize: 20,
@@ -80,7 +80,7 @@ class ScreenTooSmall extends StatelessWidget {
                     children: [
                       Text(
                         'If using a smartphone, please switch to a computer',
-                        style: FlutterFlowTheme.of(context).title3.override(
+                        style: FFTheme.of(context).title3.override(
                               fontFamily: 'Lexend Deca',
                               color: const Color(0xBBFFFFFF),
                               fontSize: 20,

@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import '../components/review_drill_plan/info_review_card_widget.dart';
+import '../components/review_drill_plan/practice_evac_review_card_widget.dart';
+import '../components/review_drill_plan/procedure_review_card_widget.dart';
+import '../components/review_drill_plan/survey_review_card_widget.dart';
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../models/drill_plan.dart';
+
+class VDPView extends StatelessWidget {
+  VDPView(this.drillPlan, {super.key});
+
+  final DrillPlan drillPlan;
+  final _reviewCardsController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
+            child: Container(
+              // width: double.infinity,
+              // constraints: const BoxConstraints(
+              //   maxWidth: 1140,
+              // ),
+              decoration: BoxDecoration(
+                color: FFTheme.of(context).primaryBackground,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 4,
+                    color: Color(0x33000000),
+                    offset: Offset(0, 3),
+                    spreadRadius: 2,
+                  )
+                ],
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 32, 16, 4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SelectionArea(
+                              child: Text(
+                            'Review',
+                            style: FFTheme.of(context).title1,
+                          )),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      height: 2,
+                      thickness: 2,
+                      indent: 12,
+                      endIndent: 12,
+                      color: FFTheme.of(context).tertiaryColor,
+                    ),
+                    Expanded(
+                      child: Scrollbar(
+                        controller: _reviewCardsController,
+                        thumbVisibility: true,
+                        child: MasonryGridView.count(
+                          controller: _reviewCardsController,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 0,
+                          mainAxisSpacing: 0,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return [
+                              () => const InfoReviewCardWidget(),
+                              () => const ProcedureReviewCardWidget(),
+                              () => const SurveyReviewCardWidget(0),
+                              () => const PracticeEvacReviewCardWidget(),
+                              () => const SurveyReviewCardWidget(1),
+                            ][index]();
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

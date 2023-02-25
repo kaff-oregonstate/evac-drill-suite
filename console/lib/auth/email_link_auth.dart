@@ -1,5 +1,6 @@
 import 'package:evac_drill_console/backend/backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'auth_util.dart';
@@ -14,7 +15,10 @@ Future requestEmailLink(
   String email,
 ) async {
   // ignore: no_leading_underscores_for_local_identifiers
-  final _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instanceFor(
+    app: Firebase.app(),
+    persistence: Persistence.INDEXED_DB,
+  );
   // check if user is in system
   final signInMethods = await _auth.fetchSignInMethodsForEmail(email);
 
@@ -29,7 +33,9 @@ Future requestEmailLink(
 
 Future<User?> signInWithEmailLink(
     BuildContext context, String email, String emailLink) async {
-  signInFunc() => FirebaseAuth.instance
-      .signInWithEmailLink(email: email.trim(), emailLink: emailLink);
+  signInFunc() => FirebaseAuth.instanceFor(
+        app: Firebase.app(),
+        persistence: Persistence.INDEXED_DB,
+      ).signInWithEmailLink(email: email.trim(), emailLink: emailLink);
   return signInOrCreateAccount(context, signInFunc, 'EMAIL_LINK');
 }

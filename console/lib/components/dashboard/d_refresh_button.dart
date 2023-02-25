@@ -19,50 +19,12 @@ class DRefreshButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: IconButton(
         onPressed: onTap,
-        // iconSize: 24,
         icon: Icon(
           Icons.refresh_rounded,
-          color: FlutterFlowTheme.of(context).secondaryText,
+          color: FFTheme.of(context).secondaryText,
         ),
-        // style: ButtonStyle(
-        //   shape: MaterialStateProperty.all<OutlinedBorder>(
-        //     RoundedRectangleBorder(
-        //       borderRadius: buttonBorderRadius,
-        //       side: BorderSide.none,
-        //     ),
-        //   ),
-        // ),
-        // hoverColor:
-        //     FlutterFlowTheme.of(context).primaryBackground.withOpacity(0.6),
-        // splashColor:
-        //     FlutterFlowTheme.of(context).primaryBackground.withOpacity(0.8),
         tooltip: 'Refresh drills',
       ),
     );
-
-    // return FFButtonWidget(
-    //   onPressed: () {
-    //     onTap;
-    //   },
-    //   text: 'Refresh',
-    //   icon: Icon(
-    //     Icons.refresh_rounded,
-    //     color: FlutterFlowTheme.of(context).primaryColor,
-    //     size: 15,
-    //   ),
-    //   options: FFButtonOptions(
-    //     height: 40,
-    //     color: FlutterFlowTheme.of(context).primaryBackground,
-    //     textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-    //           fontFamily: 'Space Grotesk',
-    //           color: FlutterFlowTheme.of(context).primaryColor,
-    //         ),
-    //     borderSide: BorderSide(
-    //       color: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.5),
-    //       width: 1,
-    //     ),
-    //     borderRadius: BorderRadius.circular(8),
-    //   ),
-    // );
   }
 }

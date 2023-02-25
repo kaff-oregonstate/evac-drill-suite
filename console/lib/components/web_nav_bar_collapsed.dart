@@ -46,7 +46,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
       width: 84,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: FFTheme.of(context).secondaryBackground,
         boxShadow: const [
           BoxShadow(
             blurRadius: 3,
@@ -76,7 +76,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
             Divider(
               height: 24,
               thickness: 2,
-              color: FlutterFlowTheme.of(context).lineColor,
+              color: FFTheme.of(context).lineColor,
             ),
             // if (false)
             //   Padding(
@@ -90,14 +90,14 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
             //   Divider(
             //     height: 24,
             //     thickness: 2,
-            //     color: FlutterFlowTheme.of(context).lineColor,
+            //     color: FFTheme.of(context).lineColor,
             //   ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_plannedDrills',
+                    'Dash_plannedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -127,7 +127,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_publishedDrills',
+                    'Dash_publishedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -157,7 +157,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_completedDrills',
+                    'Dash_completedDrills',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -185,14 +185,14 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
             Divider(
               height: 24,
               thickness: 2,
-              color: FlutterFlowTheme.of(context).lineColor,
+              color: FFTheme.of(context).lineColor,
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
               child: InkWell(
                 onTap: () async {
                   context.pushNamed(
-                    'Main_teamMembersPage',
+                    'Dash_teamMembersPage',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
@@ -220,7 +220,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
             Divider(
               height: 24,
               thickness: 2,
-              color: FlutterFlowTheme.of(context).lineColor,
+              color: FFTheme.of(context).lineColor,
             ),
             Expanded(
               child: Padding(
@@ -232,15 +232,19 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                     Divider(
                       height: 24,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
                     Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
                       child: InkWell(
                         onTap: () async {
+                          // TODO: duplicate some drill or add doc to firebase
+                          const drillID = '';
+                          // then:
                           context.pushNamed(
-                            // FIXME: link to PlanDrillPage once implemented
-                            'planDrill-Info',
+                            'planDrill',
+                            params: {'drillID': drillID},
+                            // TODO: Evaluate where to use this transition info
                             extra: <String, dynamic>{
                               kTransitionInfoKey: const TransitionInfo(
                                 hasTransition: true,
@@ -254,13 +258,12 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                           width: 42,
                           height: 42,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                            color: FFTheme.of(context).secondaryBackground,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
                             Icons.library_add_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                             size: 24,
                           ),
                         ),
@@ -269,7 +272,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                     Divider(
                       height: 24,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
                     (Theme.of(context).brightness == Brightness.light)
                         ? const Padding(
@@ -285,7 +288,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                                 0, 6, 0, 0),
                             child: Icon(
                               Icons.brightness_2_outlined,
-                              color: FlutterFlowTheme.of(context).secondaryText,
+                              color: FFTheme.of(context).secondaryText,
                               size: 24,
                             ),
                           ),
@@ -303,7 +306,7 @@ class _WebNavBarCollapsedState extends State<WebNavBarCollapsed> {
                     Divider(
                       height: 24,
                       thickness: 2,
-                      color: FlutterFlowTheme.of(context).lineColor,
+                      color: FFTheme.of(context).lineColor,
                     ),
                     Padding(
                       padding:

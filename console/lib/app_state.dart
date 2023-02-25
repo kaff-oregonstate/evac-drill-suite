@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 const kMenuCollapsedKey = '__menu_collapsed__';
 
 class FFAppState extends ChangeNotifier {
+  bool debug = false;
+
   static final FFAppState _instance = FFAppState._internal();
 
   factory FFAppState() {
@@ -31,6 +33,8 @@ class FFAppState extends ChangeNotifier {
     _userPrefsBox.put(kMenuCollapsedKey, value);
     notifyListeners();
   }
+
+  static const deploymentUrl = 'https://evac-drill-console.firebaseapp.com/';
 }
 
 // LatLng? _latLngFromString(String? val) {

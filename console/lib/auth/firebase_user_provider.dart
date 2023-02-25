@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FfEvacDrillConsoleProtoFirebaseUser {
@@ -10,7 +11,10 @@ class FfEvacDrillConsoleProtoFirebaseUser {
 FfEvacDrillConsoleProtoFirebaseUser? currentUser;
 bool get loggedIn => currentUser?.loggedIn ?? false;
 Stream<FfEvacDrillConsoleProtoFirebaseUser>
-    ffEvacDrillConsoleProtoFirebaseUserStream() => FirebaseAuth.instance
+    ffEvacDrillConsoleProtoFirebaseUserStream() => FirebaseAuth.instanceFor(
+          app: Firebase.app(),
+          persistence: Persistence.INDEXED_DB,
+        )
             .authStateChanges()
             .debounce((user) => user == null && !loggedIn
                 ? TimerStream(true, const Duration(seconds: 1))

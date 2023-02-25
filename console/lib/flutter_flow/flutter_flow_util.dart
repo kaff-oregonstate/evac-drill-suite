@@ -41,6 +41,34 @@ String dateTimeFormat(String format, DateTime? dateTime, {String? locale}) {
   return DateFormat(format).format(dateTime);
 }
 
+String? readableDateTime(DateTime? dateTime) {
+  if (dateTime == null) return null;
+  String onlyCap(String s) {
+    String output = '';
+    void addOnlyCap(char) {
+      if (char.contains(RegExp(r'[A-Z]'))) output += char;
+    }
+
+    final chars = s.split('');
+    chars.forEach(addOnlyCap);
+    return output;
+  }
+
+  // 'April 8th, 2023 at 10am '
+  final weekday = DateFormat.EEEE().format(dateTime);
+  final month = DateFormat.LLLL().format(dateTime);
+  final day = DateFormat.d().format(dateTime);
+  final year = DateFormat.y().format(dateTime);
+  final hour24 = DateFormat.H().format(dateTime);
+  final hourInt = int.parse(hour24);
+  final hour = (hourInt > 12) ? (hourInt % 12).toString() : hour24;
+  final amPm = (int.parse(hour24) > 11) ? 'pm' : 'am';
+  final minutes = DateFormat.m().format(dateTime);
+  final min = (int.parse(minutes) == 0) ? null : minutes;
+  final timeZone = onlyCap(dateTime.timeZoneName);
+  return '$weekday $month $day, $year at $hour${(min != null) ? ":$min" : ""} $amPm $timeZone';
+}
+
 // Future launchURL(String url) async {
 //   var uri = Uri.parse(url).toString();
 //   try {

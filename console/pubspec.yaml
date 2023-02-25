@@ -3,7 +3,7 @@ description: A web console which allows administration of the evac_drill_app
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.2.0+1
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
@@ -18,7 +18,10 @@ dependencies:
   built_value: 8.4.0
   cached_network_image: 3.2.1
   cloud_firestore: ^4.2.0
-  collection: 1.16.0
+  cloud_functions: ^4.0.7
+  # cloud_functions_web: ^4.3.15
+  # cloud_functions_platform_interface: ^5.1.26
+  collection: ^1.16.0
   cupertino_icons: ^1.0.2
   easy_debounce: 2.0.1
   firebase_auth: ^4.1.4
@@ -37,16 +40,20 @@ dependencies:
   intl: 0.17.0
   json_path: 0.4.1
   json_serializable: 6.3.1
+  package_info_plus: ^3.0.2
   page_transition: 2.0.4
   percent_indicator: 4.2.2
   provider: 6.0.4
   rxdart: 0.27.4
   sqflite: 2.2.0+2
+  stream_transform: ^2.1.0
   styled_divider: 1.0.4
   timeago: 3.2.2
   url_launcher: 6.1.5
-  stream_transform: ^2.1.0
-  package_info_plus: ^3.0.2
+  uuid: ^3.0.7
+  firebase_storage: ^11.0.10
+  archive: ^3.3.6
+  pointycastle: ^3.6.2
 
 dependency_overrides:
   rxdart: 0.27.4

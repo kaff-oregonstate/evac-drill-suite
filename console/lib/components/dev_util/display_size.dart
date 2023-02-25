@@ -24,10 +24,10 @@ class SizeDisplay extends StatelessWidget {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
@@ -38,9 +38,9 @@ class SizeDisplay extends StatelessWidget {
             children: [
               Text(
                 '$width x $height',
-                style: FlutterFlowTheme.of(context).title3.override(
+                style: FFTheme.of(context).title3.override(
                       fontFamily: 'Outfit',
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: FFTheme.of(context).secondaryText,
                     ),
               )
             ],

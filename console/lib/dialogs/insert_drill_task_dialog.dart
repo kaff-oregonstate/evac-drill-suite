@@ -2,8 +2,13 @@ import 'package:evac_drill_console/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../models/drill_task_plan.dart';
+import '../plan_drill/plan_drill_controller.dart';
+
 class InsertDrillTaskDialog extends StatefulWidget {
-  const InsertDrillTaskDialog({Key? key}) : super(key: key);
+  const InsertDrillTaskDialog(this.pdController, {super.key});
+
+  final PDController pdController;
 
   @override
   State<InsertDrillTaskDialog> createState() => _InsertDrillTaskDialogState();
@@ -19,20 +24,21 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 24),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: FFTheme.of(context).primaryBackground,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          constraints: BoxConstraints.loose(const Size(800, 880)),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // title bar
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,14 +46,13 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                 children: [
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 24),
-                    child: SelectionArea(
-                        child: Text(
+                    child: Text(
                       'Insert Task',
-                      style: FlutterFlowTheme.of(context).title2.override(
+                      style: FFTheme.of(context).title2.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
-                    )),
+                    ),
                   ),
                   FlutterFlowIconButton(
                     borderColor: Colors.transparent,
@@ -56,17 +61,16 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                     buttonSize: 48,
                     icon: Icon(
                       Icons.close_rounded,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: FFTheme.of(context).secondaryText,
                       size: 24,
                     ),
                     onPressed: () {
-                      // TODO: Implement close dialog `.onPressed`
-                      // ignore: avoid_print
-                      print('IconButton pressed ...');
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
               ),
+              // task type buttons
               Expanded(
                 child: GridView(
                   padding: EdgeInsets.zero,
@@ -79,188 +83,171 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                   primary: false,
                   scrollDirection: Axis.vertical,
                   children: [
-                    Container(
-                      width: 160,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.addTask(DrillTaskType.survey);
+                          Navigator.of(context).pop();
+                        },
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).tertiaryColor,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.list_alt_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 96,
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
-                              child: SelectionArea(
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.list_alt_rounded,
+                                  color: FFTheme.of(context).secondaryText,
+                                  size: 96,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
                                   child: Text(
-                                'Survey',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context).title3,
-                              )),
+                                    'Survey',
+                                    textAlign: TextAlign.center,
+                                    style: FFTheme.of(context).title3,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 160,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController
+                              .addTask(DrillTaskType.reqLocPerms);
+                          Navigator.of(context).pop();
+                        },
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).tertiaryColor,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.location_on_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 96,
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
-                              child: SelectionArea(
-                                  child: Text(
-                                'Request Location Permissions',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context).title3,
-                              )),
-                            ),
-                          ],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.location_on_rounded,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Request Location Permissions',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 160,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController
+                              .addTask(DrillTaskType.practiceEvac);
+                          Navigator.of(context).pop();
+                        },
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).tertiaryColor,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.timelapse_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 96,
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
-                              child: SelectionArea(
-                                  child: Text(
-                                'Wait for Start',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context).title3,
-                              )),
-                            ),
-                          ],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.directions_run_rounded,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Practice Evacuation',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 160,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.addTask(DrillTaskType.upload);
+                          Navigator.of(context).pop();
+                        },
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).tertiaryColor,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.directions_run_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 96,
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
-                              child: SelectionArea(
-                                  child: Text(
-                                'Practice Evacuation',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context).title3,
-                              )),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 160,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).tertiaryColor,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.cloud_upload_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 96,
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
-                              child: SelectionArea(
-                                  child: Text(
-                                'Upload',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context).title3,
-                              )),
-                            ),
-                          ],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.cloud_upload_rounded,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Upload',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
