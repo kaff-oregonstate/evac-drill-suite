@@ -1,8 +1,14 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/drill_task_plan.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
 class SurveyTaskField extends StatefulWidget {
-  const SurveyTaskField({Key? key}) : super(key: key);
+  const SurveyTaskField(this.drillTask, this.pdController, {super.key});
+
+  final DrillTaskPlan drillTask;
+  final PDController pdController;
 
   @override
   State<SurveyTaskField> createState() => _SurveyTaskFieldState();
@@ -14,7 +20,9 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController = TextEditingController(
+      text: widget.drillTask.title,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -31,40 +39,60 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
                       'Survey',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController
+                              .removeTask(widget.drillTask.taskID);
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
+                    // FlutterFlowIconButton(
+                    //   borderColor: Colors.transparent,
+                    //   borderRadius: 8,
+                    //   borderWidth: 2,
+                    //   buttonSize: 48,
+                    // ),
                   ],
                 ),
               ),
@@ -73,7 +101,7 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -85,17 +113,20 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                       child: SelectionArea(
                           child: Text(
                         'Title:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
-                      child: TextFormField(
+                      child: TextField(
                         controller: textController,
+                        onChanged: (value) => widget.pdController
+                            .setTaskParameter(widget.drillTask.taskID,
+                                widget.drillTask.taskType, 'title', value),
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[Pre-Drill Survey…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -125,10 +156,9 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -145,9 +175,9 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                       child: SelectionArea(
                           child: Text(
                         '(Survey questions will be planned in an ',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                        style: FFTheme.of(context).bodyText1.override(
                               fontFamily: 'Space Grotesk',
-                              color: FlutterFlowTheme.of(context).secondaryText,
+                              color: FFTheme.of(context).secondaryText,
                             ),
                       )),
                     ),
@@ -156,9 +186,9 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                       child: SelectionArea(
                           child: Text(
                         'upcoming step',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                        style: FFTheme.of(context).bodyText1.override(
                               fontFamily: 'Space Grotesk',
-                              color: FlutterFlowTheme.of(context).secondaryText,
+                              color: FFTheme.of(context).secondaryText,
                               decoration: TextDecoration.underline,
                             ),
                       )),
@@ -168,9 +198,9 @@ class _SurveyTaskFieldState extends State<SurveyTaskField> {
                       child: SelectionArea(
                           child: Text(
                         ')',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                        style: FFTheme.of(context).bodyText1.override(
                               fontFamily: 'Space Grotesk',
-                              color: FlutterFlowTheme.of(context).secondaryText,
+                              color: FFTheme.of(context).secondaryText,
                             ),
                       )),
                     ),
