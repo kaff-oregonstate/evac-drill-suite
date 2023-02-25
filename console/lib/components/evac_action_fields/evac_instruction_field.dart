@@ -1,22 +1,32 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-class EvacuationInstructionField extends StatefulWidget {
-  const EvacuationInstructionField({Key? key}) : super(key: key);
+import '../../models/evac_action_plans/instruction_action_plan.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
+class EvacInstructionField extends StatefulWidget {
+  const EvacInstructionField(
+    this.pdController,
+    this.taskID,
+    this.instructionAction, {
+    super.key,
+  });
+
+  final PDController pdController;
+  final String taskID;
+  final InstructionActionPlan instructionAction;
 
   @override
-  State<EvacuationInstructionField> createState() =>
-      _EvacuationInstructionFieldState();
+  State<EvacInstructionField> createState() => _EvacInstructionFieldState();
 }
 
-class _EvacuationInstructionFieldState
-    extends State<EvacuationInstructionField> {
+class _EvacInstructionFieldState extends State<EvacInstructionField> {
   TextEditingController? textController;
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController = TextEditingController(text: widget.instructionAction.text);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -33,10 +43,10 @@ class _EvacuationInstructionFieldState
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
@@ -48,24 +58,40 @@ class _EvacuationInstructionFieldState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
                       'Evacuation Instruction',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.removeAction(
+                            widget.taskID,
+                            widget.instructionAction.actionID,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -75,7 +101,7 @@ class _EvacuationInstructionFieldState
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -83,15 +109,28 @@ class _EvacuationInstructionFieldState
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 0),
+                      child: SelectionArea(
+                          child: Text(
+                        'Instruction:',
+                        style: FFTheme.of(context).bodyText1,
+                      )),
+                    ),
                     Expanded(
                       child: TextFormField(
                         controller: textController,
-                        autofocus: true,
+                        onChanged: (value) => widget.pdController
+                            .setActionParam(
+                                widget.taskID,
+                                widget.instructionAction.actionID,
+                                'text',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText:
-                              '[Get to high ground! Minimum elevation: 40ft.…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                              '[Get to high ground! Minimum elevation is 40 feet…]',
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -121,10 +160,9 @@ class _EvacuationInstructionFieldState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         maxLines: 5,
                       ),
                     ),
