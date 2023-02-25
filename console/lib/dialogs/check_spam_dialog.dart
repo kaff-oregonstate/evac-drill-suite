@@ -8,7 +8,7 @@ class CheckSpamDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+      backgroundColor: FFTheme.of(context).secondaryBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24.0),
       ),
@@ -23,20 +23,20 @@ class CheckSpamDialog extends StatelessWidget {
             children: [
               Text(
                 'Access requested.',
-                style: FlutterFlowTheme.of(context).title1,
+                style: FFTheme.of(context).title1,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 8),
                 child: Text(
                   'If approved, we will email you a sign-in link.',
-                  style: FlutterFlowTheme.of(context).subtitle1,
+                  style: FFTheme.of(context).subtitle1,
                 ),
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 8),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    color: FFTheme.of(context).primaryBackground,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
@@ -49,7 +49,7 @@ class CheckSpamDialog extends StatelessWidget {
                               48, 0, 48, 0),
                           child: Text(
                             'that email might go to spam, so add: ',
-                            style: FlutterFlowTheme.of(context).bodyText1,
+                            style: FFTheme.of(context).bodyText1,
                           ),
                         ),
                         SelectionArea(
@@ -58,9 +58,7 @@ class CheckSpamDialog extends StatelessWidget {
                                 12, 4, 12, 6),
                             child: Text(
                               'no-reply@evac-drill-console.firebaseapp.com',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyText2
-                                  .override(
+                              style: FFTheme.of(context).bodyText2.override(
                                     fontFamily: 'Space Grotesk',
                                     color: const Color(0xFFD64C06),
                                     decoration: TextDecoration.underline,
@@ -73,7 +71,7 @@ class CheckSpamDialog extends StatelessWidget {
                               48, 0, 48, 0),
                           child: Text(
                             'to your contacts, and check your spam!',
-                            style: FlutterFlowTheme.of(context).bodyText1,
+                            style: FFTheme.of(context).bodyText1,
                           ),
                         ),
                       ],
@@ -95,13 +93,10 @@ class CheckSpamDialog extends StatelessWidget {
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.of(context).primaryColor,
-                        textStyle: FlutterFlowTheme.of(context)
-                            .subtitle2
-                            .override(
+                        color: FFTheme.of(context).primaryColor,
+                        textStyle: FFTheme.of(context).subtitle2.override(
                               fontFamily: 'Space Grotesk',
-                              color:
-                                  FlutterFlowTheme.of(context).primaryBtnText,
+                              color: FFTheme.of(context).primaryBtnText,
                             ),
                         borderSide: const BorderSide(
                           color: Colors.transparent,
@@ -119,12 +114,12 @@ class CheckSpamDialog extends StatelessWidget {
                 children: [
                   Text(
                     'stuck? shoot me an email: ',
-                    style: FlutterFlowTheme.of(context).bodyText2,
+                    style: FFTheme.of(context).bodyText2,
                   ),
                   SelectionArea(
                     child: Text(
                       'david@davidkaff.io',
-                      style: FlutterFlowTheme.of(context).bodyText2.override(
+                      style: FFTheme.of(context).bodyText2.override(
                             fontFamily: 'Space Grotesk',
                             decoration: TextDecoration.underline,
                           ),

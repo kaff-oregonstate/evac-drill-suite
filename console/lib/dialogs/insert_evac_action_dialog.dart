@@ -2,19 +2,20 @@ import 'package:evac_drill_console/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../models/drill_task_plan.dart';
+import '../models/evac_action_plans/evac_action_plan.dart';
 import '../plan_drill/plan_drill_controller.dart';
 
-class InsertDrillTaskDialog extends StatefulWidget {
-  const InsertDrillTaskDialog(this.pdController, {super.key});
+class InsertEvacActionDialog extends StatefulWidget {
+  const InsertEvacActionDialog(this.pdController, this.taskID, {super.key});
 
   final PDController pdController;
+  final String taskID;
 
   @override
-  State<InsertDrillTaskDialog> createState() => _InsertDrillTaskDialogState();
+  State<InsertEvacActionDialog> createState() => _InsertEvacActionDialogState();
 }
 
-class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
+class _InsertEvacActionDialogState extends State<InsertEvacActionDialog> {
   @override
   void initState() {
     super.initState();
@@ -87,7 +88,8 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          widget.pdController.addTask(DrillTaskType.survey);
+                          widget.pdController.addAction(
+                              widget.taskID, EvacActionType.waitForStart);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -108,14 +110,14 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.list_alt_rounded,
+                                  Icons.watch_later_outlined,
                                   color: FFTheme.of(context).secondaryText,
                                   size: 96,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 4),
                                   child: Text(
-                                    'Survey',
+                                    'Wait For Start',
                                     textAlign: TextAlign.center,
                                     style: FFTheme.of(context).title3,
                                   ),
@@ -130,8 +132,8 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          widget.pdController
-                              .addTask(DrillTaskType.reqLocPerms);
+                          widget.pdController.addAction(
+                              widget.taskID, EvacActionType.instruction);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -151,97 +153,14 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.location_on_rounded,
+                                Icons.info_outline_rounded,
                                 color: FFTheme.of(context).secondaryText,
                                 size: 96,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
-                                  'Request Location Permissions',
-                                  textAlign: TextAlign.center,
-                                  style: FFTheme.of(context).title3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          widget.pdController
-                              .addTask(DrillTaskType.practiceEvac);
-                          Navigator.of(context).pop();
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          width: 120,
-                          height: 140,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: FFTheme.of(context).tertiaryColor,
-                              width: 3,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.directions_run_rounded,
-                                color: FFTheme.of(context).secondaryText,
-                                size: 96,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  'Practice Evacuation',
-                                  textAlign: TextAlign.center,
-                                  style: FFTheme.of(context).title3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          widget.pdController.addTask(DrillTaskType.upload);
-                          Navigator.of(context).pop();
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          width: 120,
-                          height: 140,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: FFTheme.of(context).tertiaryColor,
-                              width: 3,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.cloud_upload_rounded,
-                                color: FFTheme.of(context).secondaryText,
-                                size: 96,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  'Upload',
+                                  'Instruction',
                                   textAlign: TextAlign.center,
                                   style: FFTheme.of(context).title3,
                                 ),

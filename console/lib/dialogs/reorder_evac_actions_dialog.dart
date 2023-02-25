@@ -3,46 +3,33 @@ import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../models/drill_task_plan.dart';
+import '../models/evac_action_plans/evac_action_plan.dart';
+import '../models/task_details_plans/practice_evac_details_plan.dart';
 import '../plan_drill/plan_drill_controller.dart';
 
-// extension on DrillTaskType {
-//   String get fullName {
-//     switch (this) {
-//       case DrillTaskType.survey:
-//         return 'Survey';
-//       case DrillTaskType.reqLocPerms:
-//         return 'Request Location Permissions';
-//       case DrillTaskType.practiceEvac:
-//         return 'Practice Evacuation';
-//       case DrillTaskType.travel:
-//         return 'Travel';
-//       case DrillTaskType.upload:
-//         return 'Upload';
-//       default:
-//         throw Exception('Internal: bad DrillTaskType on .fullName');
-//     }
-//   }
-// }
-
-class ReorderTasksDialog extends StatefulWidget {
-  const ReorderTasksDialog(this.pdController, {super.key});
-  // const ReorderTasksDialog(this.tasks, {super.key});
+class ReorderEvacActionsDialog extends StatefulWidget {
+  const ReorderEvacActionsDialog(this.pdController, this.taskID, this.taskIndex,
+      {super.key});
+  // const ReorderEvacActionsDialog(this.tasks, {super.key});
 
   final PDController pdController;
-  // final List<DrillTaskPlan> tasks;
+  final String taskID;
+  final int taskIndex;
 
   @override
-  State<ReorderTasksDialog> createState() => _ReorderTasksDialogState();
+  State<ReorderEvacActionsDialog> createState() =>
+      _ReorderEvacActionsDialogState();
 }
 
-class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
-  List<DrillTaskPlan> tasks = [];
+class _ReorderEvacActionsDialogState extends State<ReorderEvacActionsDialog> {
+  List<EvacActionPlan> actions = [];
   @override
   void initState() {
     super.initState();
-    for (final task in widget.pdController.drillPlan.tasks) {
-      tasks.add(task);
+    for (final step in (widget.pdController.drillPlan.tasks[widget.taskIndex]
+            .details as PracticeEvacDetailsPlan)
+        .actions) {
+      actions.add(step);
     }
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -58,7 +45,7 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
             color: FFTheme.of(context).primaryBackground,
             borderRadius: BorderRadius.circular(12),
           ),
-          constraints: BoxConstraints.loose(const Size(600, 640)),
+          constraints: BoxConstraints.loose(const Size(600, 800)),
           padding:
               const EdgeInsets.all(16).add(const EdgeInsets.only(bottom: 8)),
           child: Material(
@@ -77,7 +64,7 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                       padding: const EdgeInsets.only(top: 8, bottom: 24),
                       child: SelectionArea(
                           child: Text(
-                        'Reorder Drill Tasks',
+                        'Reorder Survey Steps',
                         style: FFTheme.of(context).title2.override(
                               fontFamily: 'Outfit',
                               color: FFTheme.of(context).secondaryText,
@@ -115,34 +102,42 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                   child: Center(
                     child: SizedBox(
                       width: 400,
-                      height: 300,
+                      height: 600,
                       child: ReorderableListView.builder(
                           shrinkWrap: true,
                           onReorder: (oldIndex, newIndex) {
                             // wtf…oh ok newIndex counts the moved item as before it
-                            if (newIndex > tasks.length) {
-                              newIndex = tasks.length;
+                            if (newIndex > actions.length) {
+                              newIndex = actions.length;
                             }
                             if (oldIndex < newIndex) newIndex -= 1;
 
                             setState(() {
-                              final item = tasks[oldIndex];
-                              tasks.removeAt(oldIndex);
-                              tasks.insert(newIndex, item);
+                              final item = actions[oldIndex];
+                              actions.removeAt(oldIndex);
+                              actions.insert(newIndex, item);
                             });
                           },
-                          itemCount: tasks.length,
+                          itemCount: actions.length,
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           itemBuilder: (context, index) {
-                            final tileText1 = tasks[index].taskType.fullName;
-                            String tileText2 =
-                                tasks[index].title ?? 'no title yet';
-                            if (tileText2.length > 19) {
-                              // An example Location
-                              tileText2 = '${tileText2.substring(0, 19)}…';
+                            final tileText1 =
+                                actions[index].actionType.fullName;
+                            String tileText2 = '';
+                            if (actions[index].actionType ==
+                                EvacActionType.instruction) {
+                              tileText2 =
+                                  (actions[index] as InstructionActionPlan)
+                                          .text ??
+                                      'no instruction yet';
                             }
+                            if (tileText2.length > 26) {
+                              tileText2 = '${tileText2.substring(0, 26)}…';
+                            }
+                            // How did you hear about this evacuation drill?
+                            // you hear about this evacua
                             return Material(
-                              key: Key(tasks[index].taskID),
+                              key: Key(actions[index].actionID),
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
@@ -235,7 +230,8 @@ class _ReorderTasksDialogState extends State<ReorderTasksDialog> {
                       ),
                       FFButtonWidget(
                         onPressed: () {
-                          widget.pdController.setTasks(tasks);
+                          widget.pdController
+                              .setActions(widget.taskID, actions);
                           Navigator.of(context).pop();
                           // Navigator.of(context).pop(tasks);
                         },

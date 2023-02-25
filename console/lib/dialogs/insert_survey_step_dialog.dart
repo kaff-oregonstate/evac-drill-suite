@@ -2,19 +2,20 @@ import 'package:evac_drill_console/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../models/drill_task_plan.dart';
+import '../models/survey_step_plans/survey_step_plan.dart';
 import '../plan_drill/plan_drill_controller.dart';
 
-class InsertDrillTaskDialog extends StatefulWidget {
-  const InsertDrillTaskDialog(this.pdController, {super.key});
+class InsertSurveyStepDialog extends StatefulWidget {
+  const InsertSurveyStepDialog(this.pdController, this.taskID, {super.key});
 
   final PDController pdController;
+  final String taskID;
 
   @override
-  State<InsertDrillTaskDialog> createState() => _InsertDrillTaskDialogState();
+  State<InsertSurveyStepDialog> createState() => _InsertSurveyStepDialogState();
 }
 
-class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
+class _InsertSurveyStepDialogState extends State<InsertSurveyStepDialog> {
   @override
   void initState() {
     super.initState();
@@ -87,7 +88,8 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          widget.pdController.addTask(DrillTaskType.survey);
+                          widget.pdController.addStep(
+                              widget.taskID, SurveyStepType.introduction);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -108,14 +110,14 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.list_alt_rounded,
+                                  Icons.start_rounded,
                                   color: FFTheme.of(context).secondaryText,
                                   size: 96,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 4),
                                   child: Text(
-                                    'Survey',
+                                    'Introduction Step',
                                     textAlign: TextAlign.center,
                                     style: FFTheme.of(context).title3,
                                   ),
@@ -131,7 +133,7 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       child: InkWell(
                         onTap: () {
                           widget.pdController
-                              .addTask(DrillTaskType.reqLocPerms);
+                              .addStep(widget.taskID, SurveyStepType.boolean);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -151,14 +153,14 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.location_on_rounded,
+                                Icons.toggle_on_outlined,
                                 color: FFTheme.of(context).secondaryText,
                                 size: 96,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
-                                  'Request Location Permissions',
+                                  'Boolean Question',
                                   textAlign: TextAlign.center,
                                   style: FFTheme.of(context).title3,
                                 ),
@@ -173,7 +175,7 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       child: InkWell(
                         onTap: () {
                           widget.pdController
-                              .addTask(DrillTaskType.practiceEvac);
+                              .addStep(widget.taskID, SurveyStepType.integer);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -193,14 +195,14 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.directions_run_rounded,
+                                Icons.onetwothree,
                                 color: FFTheme.of(context).secondaryText,
                                 size: 96,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
-                                  'Practice Evacuation',
+                                  'Integer Question',
                                   textAlign: TextAlign.center,
                                   style: FFTheme.of(context).title3,
                                 ),
@@ -214,7 +216,8 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          widget.pdController.addTask(DrillTaskType.upload);
+                          widget.pdController
+                              .addStep(widget.taskID, SurveyStepType.scale);
                           Navigator.of(context).pop();
                         },
                         borderRadius: BorderRadius.circular(12),
@@ -234,14 +237,182 @@ class _InsertDrillTaskDialogState extends State<InsertDrillTaskDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.cloud_upload_rounded,
+                                Icons.onetwothree,
                                 color: FFTheme.of(context).secondaryText,
                                 size: 96,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
-                                  'Upload',
+                                  'Scale Question',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.addStep(
+                              widget.taskID, SurveyStepType.singleChoice);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check_box_outlined,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Single Choice Question',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController
+                              .addStep(widget.taskID, SurveyStepType.text);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.abc,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Text Question',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController
+                              .addStep(widget.taskID, SurveyStepType.date);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.date_range_rounded,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Date Question',
+                                  textAlign: TextAlign.center,
+                                  style: FFTheme.of(context).title3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.addStep(
+                              widget.taskID, SurveyStepType.completion);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 120,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: FFTheme.of(context).tertiaryColor,
+                              width: 3,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.exit_to_app_rounded,
+                                color: FFTheme.of(context).secondaryText,
+                                size: 96,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  'Completion Step',
                                   textAlign: TextAlign.center,
                                   style: FFTheme.of(context).title3,
                                 ),
