@@ -1,34 +1,44 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-class TextQuestionStepFieldWidget extends StatefulWidget {
-  const TextQuestionStepFieldWidget({Key? key}) : super(key: key);
+import '../../models/survey_step_plans/int_q_plan.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
+class IntQField extends StatefulWidget {
+  const IntQField(
+    this.pdController,
+    this.taskID,
+    this.intQ, {
+    super.key,
+  });
+
+  final PDController pdController;
+  final String taskID;
+  final IntQPlan intQ;
 
   @override
-  State<TextQuestionStepFieldWidget> createState() =>
-      _TextQuestionStepFieldWidgetState();
+  State<IntQField> createState() => _IntQFieldState();
 }
 
-class _TextQuestionStepFieldWidgetState
-    extends State<TextQuestionStepFieldWidget> {
-  TextEditingController? textController1;
-  TextEditingController? textController2;
-  TextEditingController? textController3;
+class _IntQFieldState extends State<IntQField> {
+  TextEditingController? titleController;
+  TextEditingController? textController;
+  TextEditingController? hintController;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    titleController = TextEditingController(text: widget.intQ.title);
+    textController = TextEditingController(text: widget.intQ.text);
+    hintController = TextEditingController(text: widget.intQ.hint);
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    textController1?.dispose();
-    textController2?.dispose();
-    textController3?.dispose();
+    titleController?.dispose();
+    textController?.dispose();
+    hintController?.dispose();
     super.dispose();
   }
 
@@ -39,39 +49,55 @@ class _TextQuestionStepFieldWidgetState
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
-                      'Text Question',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      'Integer Question',
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.removeStep(
+                            widget.taskID,
+                            widget.intQ.stepID['id']!,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -81,7 +107,7 @@ class _TextQuestionStepFieldWidgetState
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -92,19 +118,22 @@ class _TextQuestionStepFieldWidgetState
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                       child: SelectionArea(
                           child: Text(
-                        'Title:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        'Question:\n(title)',
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController1,
+                      child: TextField(
+                        controller: titleController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.intQ.stepID['id']!, 'title', value),
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText:
-                              '[How did you hear about this evacuation drill?…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                              '[How many times have you visited this location?…]',
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -134,10 +163,9 @@ class _TextQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -150,27 +178,28 @@ class _TextQuestionStepFieldWidgetState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 120,
+                      width: 110,
                       decoration: const BoxDecoration(),
                       child: Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 0),
                         child: SelectionArea(
                             child: Text(
-                          'Text [optional]:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          'Description [optional]:',
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController2,
-                        autofocus: true,
+                      child: TextField(
+                        controller: textController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.intQ.stepID['id']!, 'text', value),
                         obscureText: false,
                         decoration: InputDecoration(
-                          hintText:
-                              '[Please do not include any personal identifiers…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintText: '[Specifically, Seaside Beach. …]',
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -200,10 +229,9 @@ class _TextQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         maxLines: 5,
                       ),
                     ),
@@ -212,72 +240,67 @@ class _TextQuestionStepFieldWidgetState
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  decoration: const BoxDecoration(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: 120,
-                        decoration: const BoxDecoration(),
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                          child: SelectionArea(
-                              child: Text(
-                            'Max Lines:',
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          )),
-                        ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: 110,
+                      decoration: const BoxDecoration(),
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                        child: SelectionArea(
+                            child: Text(
+                          'Hint [optional]:',
+                          style: FFTheme.of(context).bodyText1,
+                        )),
                       ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: textController3,
-                          autofocus: true,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            hintText:
-                                '[Number of lines to provide for response,`1`, `4`, etc.…]',
-                            hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: hintController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.intQ.stepID['id']!, 'hint', value),
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: '[Number of times you have visited…]',
+                          hintStyle: FFTheme.of(context).bodyText2,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Color(0x00000000),
+                              width: 1,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyText1,
-                          keyboardType: TextInputType.number,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Color(0x00000000),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          errorBorder: UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Color(0x00000000),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedErrorBorder: UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Color(0x00000000),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          filled: true,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
+                        style: FFTheme.of(context).bodyText1,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

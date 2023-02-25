@@ -1,31 +1,41 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-class SurveyInstructionStepFieldWidget extends StatefulWidget {
-  const SurveyInstructionStepFieldWidget({Key? key}) : super(key: key);
+import '../../models/survey_step_plans/introduction_step_plan.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
+class IntroductionStepField extends StatefulWidget {
+  const IntroductionStepField(
+    this.pdController,
+    this.taskID,
+    this.introStep, {
+    super.key,
+  });
+
+  final PDController pdController;
+  final String taskID;
+  final IntroductionStepPlan introStep;
 
   @override
-  State<SurveyInstructionStepFieldWidget> createState() =>
-      _SurveyInstructionStepFieldWidgetState();
+  State<IntroductionStepField> createState() => _IntroductionStepFieldState();
 }
 
-class _SurveyInstructionStepFieldWidgetState
-    extends State<SurveyInstructionStepFieldWidget> {
-  TextEditingController? textController1;
-  TextEditingController? textController2;
+class _IntroductionStepFieldState extends State<IntroductionStepField> {
+  TextEditingController? titleController;
+  TextEditingController? textController;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
+    titleController = TextEditingController(text: widget.introStep.title);
+    textController = TextEditingController(text: widget.introStep.text);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    textController1?.dispose();
-    textController2?.dispose();
+    titleController?.dispose();
+    textController?.dispose();
     super.dispose();
   }
 
@@ -36,10 +46,10 @@ class _SurveyInstructionStepFieldWidgetState
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
@@ -51,24 +61,40 @@ class _SurveyInstructionStepFieldWidgetState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
-                      'Survey Instruction',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      'Survey Introduction Step',
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.removeStep(
+                            widget.taskID,
+                            widget.introStep.stepID['id']!,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -78,7 +104,7 @@ class _SurveyInstructionStepFieldWidgetState
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -90,17 +116,20 @@ class _SurveyInstructionStepFieldWidgetState
                       child: SelectionArea(
                           child: Text(
                         'Title:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
                       child: TextFormField(
-                        controller: textController1,
+                        controller: titleController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.introStep.stepID['id']!, 'title', value),
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[Please complete our Pre-Drill survey…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -130,10 +159,9 @@ class _SurveyInstructionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -149,19 +177,21 @@ class _SurveyInstructionStepFieldWidgetState
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 0),
                       child: SelectionArea(
                           child: Text(
-                        'Text [optional]:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        'Description [optional]:',
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
                       child: TextFormField(
-                        controller: textController2,
-                        autofocus: true,
+                        controller: textController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.introStep.stepID['id']!, 'text', value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText:
                               '[This survey will help us to better understand the efficacy of our tsunami evacuation infrastructure…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -191,10 +221,9 @@ class _SurveyInstructionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         maxLines: 5,
                       ),
                     ),

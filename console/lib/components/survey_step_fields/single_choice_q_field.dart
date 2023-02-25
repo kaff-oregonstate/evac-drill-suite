@@ -1,40 +1,49 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-class SingleChoiceQuestionStepFieldWidget extends StatefulWidget {
-  const SingleChoiceQuestionStepFieldWidget({Key? key}) : super(key: key);
+import '../../models/survey_step_plans/single_choice_q_plan.dart';
+import '../../plan_drill/plan_drill_controller.dart';
+
+class SingleChoiceQField extends StatefulWidget {
+  const SingleChoiceQField(
+    this.pdController,
+    this.taskID,
+    this.singleChoiceQ, {
+    super.key,
+  });
+
+  final PDController pdController;
+  final String taskID;
+  final SingleChoiceQPlan singleChoiceQ;
 
   @override
-  State<SingleChoiceQuestionStepFieldWidget> createState() =>
-      _SingleChoiceQuestionStepFieldWidgetState();
+  State<SingleChoiceQField> createState() => _SingleChoiceQueceQState();
 }
 
-class _SingleChoiceQuestionStepFieldWidgetState
-    extends State<SingleChoiceQuestionStepFieldWidget> {
-  TextEditingController? textController1;
-  TextEditingController? textController2;
-  TextEditingController? textController3;
-  bool? checkboxValue1;
-  TextEditingController? textController4;
-  bool? checkboxValue2;
-  String? radioValue;
+class _SingleChoiceQueceQState extends State<SingleChoiceQField> {
+  TextEditingController? titleController;
+  TextEditingController? textController;
+  TextEditingController? firstChoiceController;
+  TextEditingController? secondChoiceController;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-    textController4 = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    titleController = TextEditingController(text: widget.singleChoiceQ.title);
+    textController = TextEditingController(text: widget.singleChoiceQ.text);
+    firstChoiceController =
+        TextEditingController(text: widget.singleChoiceQ.yesChoice);
+    secondChoiceController =
+        TextEditingController(text: widget.singleChoiceQ.noChoice);
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    textController1?.dispose();
-    textController2?.dispose();
-    textController3?.dispose();
-    textController4?.dispose();
+    titleController?.dispose();
+    textController?.dispose();
+    firstChoiceController?.dispose();
+    secondChoiceController?.dispose();
     super.dispose();
   }
 
@@ -45,39 +54,55 @@ class _SingleChoiceQuestionStepFieldWidgetState
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
                       'Single Choice Question',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.removeStep(
+                            widget.taskID,
+                            widget.singleChoiceQ.stepID['id']!,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -87,7 +112,7 @@ class _SingleChoiceQuestionStepFieldWidgetState
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -98,19 +123,25 @@ class _SingleChoiceQuestionStepFieldWidgetState
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                       child: SelectionArea(
                           child: Text(
-                        'Title:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        'Question:\n(title)',
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController1,
+                      child: TextField(
+                        controller: titleController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.singleChoiceQ.stepID['id']!,
+                                'title',
+                                value),
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText:
                               '[Do you prefer to vacation at the beach or the mountains?…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -140,10 +171,9 @@ class _SingleChoiceQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -163,19 +193,24 @@ class _SingleChoiceQuestionStepFieldWidgetState
                             const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 0),
                         child: SelectionArea(
                             child: Text(
-                          'Text [optional]:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          'Description [optional]:',
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController2,
-                        autofocus: true,
+                      child: TextField(
+                        controller: textController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.singleChoiceQ.stepID['id']!,
+                                'text',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[Yes, you have to pick one. …]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -205,10 +240,9 @@ class _SingleChoiceQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         maxLines: 5,
                       ),
                     ),
@@ -229,18 +263,23 @@ class _SingleChoiceQuestionStepFieldWidgetState
                         child: SelectionArea(
                             child: Text(
                           'First Choice:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController3,
-                        autofocus: true,
+                      child: TextField(
+                        controller: firstChoiceController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.singleChoiceQ.stepID['id']!,
+                                'yesChoice',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[The beach…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -270,48 +309,12 @@ class _SingleChoiceQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                      child: SelectionArea(
-                          child: Text(
-                        'Default?:',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Space Grotesk',
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                            ),
-                      )),
-                    ),
-                    Theme(
-                      data: ThemeData(
-                        checkboxTheme: CheckboxThemeData(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        unselectedWidgetColor: const Color(0xFFF5F5F5),
-                      ),
-                      child: Checkbox(
-                        value: checkboxValue1 ??= true,
-                        onChanged: (newValue) async {
-                          setState(() => checkboxValue1 = newValue!);
-                        },
-                        activeColor: FlutterFlowTheme.of(context).primaryColor,
-                      ),
-                    ),
-                    Radio(
-                      value: 'first',
-                      groupValue: radioValue,
-                      onChanged: (newValue) async {
-                        setState(() => radioValue = newValue);
-                      },
-                    )
                   ],
                 ),
               ),
@@ -329,18 +332,23 @@ class _SingleChoiceQuestionStepFieldWidgetState
                         child: SelectionArea(
                             child: Text(
                           'Second Choice:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController4,
-                        autofocus: true,
+                      child: TextField(
+                        controller: secondChoiceController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.singleChoiceQ.stepID['id']!,
+                                'noChoice',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[The mountains…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -370,40 +378,10 @@ class _SingleChoiceQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                      child: SelectionArea(
-                          child: Text(
-                        'Default?:',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Space Grotesk',
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                            ),
-                      )),
-                    ),
-                    Theme(
-                      data: ThemeData(
-                        checkboxTheme: CheckboxThemeData(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        unselectedWidgetColor:
-                            FlutterFlowTheme.of(context).secondaryText,
-                      ),
-                      child: Checkbox(
-                        value: checkboxValue2 ??= false,
-                        onChanged: (newValue) async {
-                          setState(() => checkboxValue2 = newValue!);
-                        },
-                        activeColor: FlutterFlowTheme.of(context).primaryColor,
                       ),
                     ),
                   ],

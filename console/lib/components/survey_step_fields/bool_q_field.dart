@@ -1,37 +1,47 @@
 import 'package:evac_drill_console/flutter_flow/flutter_flow_theme.dart';
+import 'package:evac_drill_console/models/survey_step_plans/bool_q_plan.dart';
 import 'package:flutter/material.dart';
 
-class BoolQuestionStepFieldWidget extends StatefulWidget {
-  const BoolQuestionStepFieldWidget({Key? key}) : super(key: key);
+import '../../plan_drill/plan_drill_controller.dart';
+
+class BoolQField extends StatefulWidget {
+  const BoolQField(
+    this.pdController,
+    this.taskID,
+    this.boolQ, {
+    super.key,
+  });
+
+  final PDController pdController;
+  final String taskID;
+  final BoolQPlan boolQ;
 
   @override
-  State<BoolQuestionStepFieldWidget> createState() =>
-      _BoolQuestionStepFieldWidgetState();
+  State<BoolQField> createState() => _BoolQFieldState();
 }
 
-class _BoolQuestionStepFieldWidgetState
-    extends State<BoolQuestionStepFieldWidget> {
-  TextEditingController? textController1;
-  TextEditingController? textController2;
-  TextEditingController? textController3;
-  TextEditingController? textController4;
+class _BoolQFieldState extends State<BoolQField> {
+  TextEditingController? titleController;
+  TextEditingController? textController;
+  TextEditingController? positiveAnswer;
+  TextEditingController? negativeAnswer;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController(text: 'Yes');
-    textController4 = TextEditingController(text: 'No');
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    titleController = TextEditingController(text: widget.boolQ.title);
+    textController = TextEditingController(text: widget.boolQ.text);
+    positiveAnswer = TextEditingController(text: widget.boolQ.positiveAnswer);
+    negativeAnswer = TextEditingController(text: widget.boolQ.negativeAnswer);
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    textController1?.dispose();
-    textController2?.dispose();
-    textController3?.dispose();
-    textController4?.dispose();
+    titleController?.dispose();
+    textController?.dispose();
+    positiveAnswer?.dispose();
+    negativeAnswer?.dispose();
     super.dispose();
   }
 
@@ -42,39 +52,55 @@ class _BoolQuestionStepFieldWidgetState
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: FFTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).tertiaryColor,
+            color: FFTheme.of(context).tertiaryColor,
             width: 2,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 12, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SelectionArea(
                         child: Text(
                       'Boolean Question',
-                      style: FlutterFlowTheme.of(context).title3.override(
+                      style: FFTheme.of(context).title3.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FFTheme.of(context).secondaryText,
                           ),
                     )),
-                    const Icon(
-                      Icons.close_rounded,
-                      color: Color(0xBF95A1AC),
-                      size: 24,
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {
+                          widget.pdController.removeStep(
+                            widget.taskID,
+                            widget.boolQ.stepID['id']!,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Color(0xBF95A1AC),
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -84,7 +110,7 @@ class _BoolQuestionStepFieldWidgetState
                 thickness: 2,
                 indent: 12,
                 endIndent: 12,
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: FFTheme.of(context).tertiaryColor,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -95,18 +121,21 @@ class _BoolQuestionStepFieldWidgetState
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                       child: SelectionArea(
                           child: Text(
-                        'Title:',
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        'Question:\n(title)',
+                        style: FFTheme.of(context).bodyText1,
                       )),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController1,
+                      child: TextField(
+                        controller: titleController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.boolQ.stepID['id']!, 'title', value),
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[Have you visited this location before?…]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -136,10 +165,9 @@ class _BoolQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -159,19 +187,21 @@ class _BoolQuestionStepFieldWidgetState
                             const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 0),
                         child: SelectionArea(
                             child: Text(
-                          'Text [optional]:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          'Description [optional]:',
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController2,
-                        autofocus: true,
+                      child: TextField(
+                        controller: textController,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(widget.taskID,
+                                widget.boolQ.stepID['id']!, 'text', value),
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: '[Specifically, Seaside Beach. …]',
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -201,10 +231,9 @@ class _BoolQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                         maxLines: 5,
                       ),
                     ),
@@ -225,17 +254,22 @@ class _BoolQuestionStepFieldWidgetState
                         child: SelectionArea(
                             child: Text(
                           'Positive answer:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController3,
-                        autofocus: true,
+                      child: TextField(
+                        controller: positiveAnswer,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.boolQ.stepID['id']!,
+                                'positiveAnswer',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -265,10 +299,9 @@ class _BoolQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
@@ -288,17 +321,22 @@ class _BoolQuestionStepFieldWidgetState
                         child: SelectionArea(
                             child: Text(
                           'Negative answer:',
-                          style: FlutterFlowTheme.of(context).bodyText1,
+                          style: FFTheme.of(context).bodyText1,
                         )),
                       ),
                     ),
                     Expanded(
-                      child: TextFormField(
-                        controller: textController4,
-                        autofocus: true,
+                      child: TextField(
+                        controller: negativeAnswer,
+                        onChanged: (value) => widget.pdController
+                            .setSurveyStepParam(
+                                widget.taskID,
+                                widget.boolQ.stepID['id']!,
+                                'negativeAnswer',
+                                value),
                         obscureText: false,
                         decoration: InputDecoration(
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintStyle: FFTheme.of(context).bodyText2,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Color(0x00000000),
@@ -328,10 +366,9 @@ class _BoolQuestionStepFieldWidgetState
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: FFTheme.of(context).secondaryBackground,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FFTheme.of(context).bodyText1,
                       ),
                     ),
                   ],
