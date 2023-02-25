@@ -1,12 +1,20 @@
 import 'dart:async';
 
 import 'package:evac_drill_console/auth/firebase_user_provider.dart';
+import 'package:evac_drill_console/features/editDrillPlanJson/edit_drill_plan_json_page.dart';
 import 'package:evac_drill_console/index.dart';
 import 'package:evac_drill_console/nav/loading_background.dart';
+import 'package:evac_drill_console/view_drill_plan/view_drill_plan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../dashboard/completed_drills_page.dart';
+import '../dashboard/planned_drills_page.dart';
+import '../dashboard/published_drills_page.dart';
+import '../dashboard/team_members_page.dart';
+import '../features/viewDrillPlanJson/view_drill_plan_json_page.dart';
+import '../plan_drill/plan_drill_page.dart';
 import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
@@ -65,39 +73,59 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, params) => (appStateNotifier.loggedIn)
-          ? const MainPlannedDrillsPage()
+          ? const PlannedDrillsPage()
           : const SignInPage(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, params) => (appStateNotifier.loggedIn)
-              ? const MainPlannedDrillsPage()
+              ? const PlannedDrillsPage()
               : SignInPage(params: params),
           routes: [
             FFRoute(
-              name: 'Main_plannedDrills',
+              name: 'Dash_plannedDrills',
               path: 'plannedDrills',
               requireAuth: true,
-              builder: (context, params) => const MainPlannedDrillsPage(),
+              builder: (context, params) => const PlannedDrillsPage(),
             ),
             FFRoute(
-              name: 'Main_publishedDrills',
+              name: 'Dash_publishedDrills',
               path: 'publishedDrills',
               requireAuth: true,
-              builder: (context, params) => const MainPublishedDrillsPage(),
+              builder: (context, params) => const PublishedDrillsPage(),
             ),
             FFRoute(
-              name: 'Main_completedDrills',
+              name: 'Dash_completedDrills',
               path: 'completedDrills',
               requireAuth: true,
-              builder: (context, params) => const MainCompletedDrillsPage(),
+              builder: (context, params) => const CompletedDrillsPage(),
             ),
             FFRoute(
               name: 'planDrill',
-              path: 'planDrill',
+              path: 'planDrill/:drillID',
               requireAuth: true,
-              builder: (context, params) => const PlanDrillPage(),
+              builder: (context, params) => PlanDrillPage(params: params),
+            ),
+            FFRoute(
+              name: 'viewDrillPlan',
+              path: 'viewDrillPlan/:drillID',
+              requireAuth: true,
+              builder: (context, params) => ViewDrillPlanPage(params: params),
+            ),
+            FFRoute(
+              name: 'editDrillPlanJson',
+              path: 'editDrillPlanJson/:drillID',
+              requireAuth: true,
+              builder: (context, params) =>
+                  EditDrillPlanJsonPage(params: params),
+            ),
+            FFRoute(
+              name: 'viewDrillPlanJson',
+              path: 'viewDrillPlanJson/:drillID',
+              requireAuth: true,
+              builder: (context, params) =>
+                  ViewDrillPlanJsonPage(params: params),
             ),
             // FFRoute(
             //   name: 'planDrill-Procedure',
@@ -123,17 +151,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             //   requireAuth: true,
             //   builder: (context, params) => PlanDrillEvacuationWidget(),
             // ),
+            // FFRoute(
+            //   name: 'finalReview',
+            //   path: 'finalReview',
+            //   requireAuth: true,
+            //   builder: (context, params) => const FinalReviewPage(),
+            // ),
             FFRoute(
-              name: 'finalReview',
-              path: 'finalReview',
-              requireAuth: true,
-              builder: (context, params) => const FinalReviewPage(),
-            ),
-            FFRoute(
-              name: 'Main_teamMembersPage',
+              name: 'Dash_teamMembersPage',
               path: 'teamMembersPage',
               requireAuth: true,
-              builder: (context, params) => const MainTeamMembersPage(),
+              builder: (context, params) => const TeamMembersPage(),
             ),
             // FFRoute(
             //   name: 'addTeamMembers',
