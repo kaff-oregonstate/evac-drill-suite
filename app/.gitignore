@@ -121,4 +121,6 @@ pubspec.lock
 
 !**/android/build.gradle
 
+/lib/firebase_options.dart
+
 /s
