@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class IntroductionStepPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.introduction;
+  @override
+  final SurveyStepType type = SurveyStepType.introduction;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   // String? buttonText;
 
@@ -22,11 +26,37 @@ class IntroductionStepPlan implements SurveyStepPlan {
       );
     }
     return IntroductionStepPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
     );
   }
+
+  // @override
+  // bool operator ==(Object other) {
+  //   if (other.runtimeType != IntroductionStepPlan) {
+  //     print('other.runtimeType');
+  //     return false;
+  //   }
+  //   other as IntroductionStepPlan;
+  //   // taskID
+  //   if (stepID['id'] != other.stepID['id']) {
+  //     print('stepID');
+  //     return false;
+  //   }
+  //   // title
+  //   if (title != other.title) {
+  //     print('title');
+  //     return false;
+  //   }
+  //   // surveySteps
+  //   if (text != other.text) {
+  //     print('text');
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
 
   @override
   Map<String, dynamic> toJson() {
@@ -44,7 +74,7 @@ class IntroductionStepPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('introStep.title'));
     }
 
     return missingParams;

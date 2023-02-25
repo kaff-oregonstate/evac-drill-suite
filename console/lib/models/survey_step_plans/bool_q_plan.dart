@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class BoolQPlan implements SurveyStepPlan {
-  static SurveyStepType type = SurveyStepType.boolean;
+  @override
+  final SurveyStepType type = SurveyStepType.boolean;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   String? positiveAnswer;
   String? negativeAnswer;
@@ -25,7 +29,7 @@ class BoolQPlan implements SurveyStepPlan {
       );
     }
     return BoolQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       positiveAnswer: stepJson['answerFormat']['positiveAnswer'],
@@ -35,8 +39,6 @@ class BoolQPlan implements SurveyStepPlan {
 
   @override
   Map<String, dynamic> toJson() {
-    // UNDONE: Does this work? sending null values of keys to Firestore…
-    // …will they read back in correctly?
     return {
       'stepIdentifier': stepID,
       'type': 'question',
@@ -56,13 +58,13 @@ class BoolQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('boolQuestion.title'));
     }
     if (positiveAnswer == null || positiveAnswer!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.positiveAnswer'));
+      missingParams.add(MissingPlanParam('boolQuestion.positiveAnswer'));
     }
     if (negativeAnswer == null || negativeAnswer!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.negativeAnswer'));
+      missingParams.add(MissingPlanParam('boolQuestion.negativeAnswer'));
     }
 
     return missingParams;

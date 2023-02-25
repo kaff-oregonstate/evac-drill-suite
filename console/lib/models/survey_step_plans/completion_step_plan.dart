@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class CompletionStepPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.completion;
+  @override
+  SurveyStepType type = SurveyStepType.completion;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
 
   CompletionStepPlan({
@@ -21,7 +25,7 @@ class CompletionStepPlan implements SurveyStepPlan {
       );
     }
     return CompletionStepPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
     );
@@ -43,7 +47,7 @@ class CompletionStepPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('completionStep.title'));
     }
 
     return missingParams;

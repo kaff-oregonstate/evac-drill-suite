@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class TextQPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.text;
+  @override
+  final SurveyStepType type = SurveyStepType.text;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   int? maxLines;
 
@@ -23,7 +27,7 @@ class TextQPlan implements SurveyStepPlan {
       );
     }
     return TextQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       maxLines: stepJson['answerFormat']['maxLines'],
@@ -40,6 +44,9 @@ class TextQPlan implements SurveyStepPlan {
       'answerFormat': {
         'type': 'text',
         'maxLines': maxLines,
+        // linter doesn't know what it's talking about here, must escape 's':
+        // ignore: unnecessary_string_escapes
+        'validationRegEx': '^(?!\s*\$).+'
       },
     };
   }
@@ -49,7 +56,7 @@ class TextQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('textQeustion.title'));
     }
 
     return missingParams;

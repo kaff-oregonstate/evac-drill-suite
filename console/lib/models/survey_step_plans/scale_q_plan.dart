@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class ScaleQPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.scale;
+  @override
+  final SurveyStepType type = SurveyStepType.scale;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   double? step;
   double? minimumValue;
@@ -41,7 +45,7 @@ class ScaleQPlan implements SurveyStepPlan {
     if (maxVal.runtimeType == int) maxVal = (maxVal as int).toDouble();
     if (defVal.runtimeType == int) defVal = (defVal as int).toDouble();
     return ScaleQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       step: stepVal,
@@ -79,19 +83,19 @@ class ScaleQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('scaleQuestion.title'));
     }
     if (step == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.step'));
+      missingParams.add(MissingPlanParam('scaleQuestion.step'));
     }
     if (minimumValue == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.minimumValue'));
+      missingParams.add(MissingPlanParam('scaleQuestion.minimumValue'));
     }
     if (maximumValue == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.maximumValue'));
+      missingParams.add(MissingPlanParam('scaleQuestion.maximumValue'));
     }
     if (defaultValue == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.defaultValue'));
+      missingParams.add(MissingPlanParam('scaleQuestion.defaultValue'));
     }
 
     return missingParams;

@@ -34,11 +34,43 @@ enum SurveyStepType {
   completion,
 }
 
+extension SurveyStepName on SurveyStepType {
+  String get fullName {
+    switch (this) {
+      case SurveyStepType.introduction:
+        return 'Introduction Step';
+      case SurveyStepType.boolean:
+        return 'Boolean Question';
+      case SurveyStepType.integer:
+        return 'Integer Question';
+      case SurveyStepType.scale:
+        return 'Scale Question';
+      case SurveyStepType.singleChoice:
+        return 'Single Choice Question';
+      case SurveyStepType.text:
+        return 'Text Question';
+      case SurveyStepType.date:
+        return 'Date Question';
+      case SurveyStepType.completion:
+        return 'Completion Step';
+      default:
+        throw Exception('Internal: bad SurveyStepType on .fullName');
+    }
+  }
+}
+
 /// Describes a SurveyKit Step, wrapped for our own purposes+extensibility
 
 abstract class SurveyStepPlan {
   Map<String, dynamic> toJson();
   List<MissingPlanParam> paramsMissing();
+
+  SurveyStepType get type;
+  Map<String, String> get stepID;
+  String? get title;
+  set title(String? value);
+  String get text;
+  set text(String value);
 
   factory SurveyStepPlan.fromJson(Map<String, dynamic> stepJson) {
     switch (stepJson['type'] as String) {

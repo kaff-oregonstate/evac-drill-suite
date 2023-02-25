@@ -3,18 +3,23 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class IntQPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.integer;
+  @override
+  final SurveyStepType type = SurveyStepType.integer;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
-  String? hint;
+  String hint;
 
   IntQPlan({
     stepID,
     this.title,
     this.text = '', // unfortunately, SurveyKit does not handle null vals here
-    this.hint,
-  }) : stepID = stepID ?? {'id': const Uuid().v4()};
+    hint,
+  })  : stepID = stepID ?? {'id': const Uuid().v4()},
+        hint = hint ?? '';
 
   factory IntQPlan.fromJson(stepJson) {
     if (stepJson['answerFormat']['type'] != 'integer') {
@@ -23,7 +28,7 @@ class IntQPlan implements SurveyStepPlan {
       );
     }
     return IntQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       hint: stepJson['answerFormat']['hint'],
@@ -49,7 +54,7 @@ class IntQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('intQuestion.title'));
     }
 
     return missingParams;

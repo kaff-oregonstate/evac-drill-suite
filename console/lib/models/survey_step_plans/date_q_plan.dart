@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class DateQPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.date;
+  @override
+  final SurveyStepType type = SurveyStepType.date;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   DateTime? minDate;
   DateTime? maxDate;
@@ -27,7 +31,7 @@ class DateQPlan implements SurveyStepPlan {
       );
     }
     return DateQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       minDate: DateTime.tryParse(stepJson['answerFormat']['minDate'] ?? ''),
@@ -58,16 +62,16 @@ class DateQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('dateQuestion.title'));
     }
     if (minDate == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.minDate'));
+      missingParams.add(MissingPlanParam('dateQuestion.minDate'));
     }
     if (maxDate == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.maxDate'));
+      missingParams.add(MissingPlanParam('dateQuestion.maxDate'));
     }
     if (defaultDate == null) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.defaultDate'));
+      missingParams.add(MissingPlanParam('dateQuestion.defaultDate'));
     }
 
     return missingParams;

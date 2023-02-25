@@ -3,9 +3,13 @@ import 'package:evac_drill_console/models/survey_step_plans/survey_step_plan.dar
 import 'package:evac_drill_console/models/missing_plan_param.dart';
 
 class SingleChoiceQPlan implements SurveyStepPlan {
-  static const SurveyStepType type = SurveyStepType.singleChoice;
+  @override
+  final SurveyStepType type = SurveyStepType.singleChoice;
+  @override
   Map<String, String> stepID;
+  @override
   String? title;
+  @override
   String text;
   String? yesChoice;
   String? noChoice;
@@ -25,7 +29,7 @@ class SingleChoiceQPlan implements SurveyStepPlan {
       );
     }
     return SingleChoiceQPlan(
-      stepID: stepJson['stepIdentifier'],
+      stepID: {'id': stepJson['stepIdentifier']['id'] as String},
       title: stepJson['title'],
       text: stepJson['text'] ?? '',
       yesChoice: stepJson['answerFormat']['textChoices']?[0]['text'],
@@ -55,13 +59,13 @@ class SingleChoiceQPlan implements SurveyStepPlan {
     List<MissingPlanParam> missingParams = [];
 
     if (title == null || title!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.title'));
+      missingParams.add(MissingPlanParam('singleChoiceQuestion.title'));
     }
     if (yesChoice == null || yesChoice!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.yesChoice'));
+      missingParams.add(MissingPlanParam('singleChoiceQuestion.yesChoice'));
     }
     if (noChoice == null || noChoice!.isEmpty) {
-      missingParams.add(MissingPlanParam('${stepID['id']}.noChoice'));
+      missingParams.add(MissingPlanParam('singleChoiceQuestion.noChoice'));
     }
 
     return missingParams;
