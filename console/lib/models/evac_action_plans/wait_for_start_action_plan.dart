@@ -9,15 +9,28 @@ enum WaitType {
   self,
 }
 
+extension WaitName on WaitType {
+  String get fullName {
+    switch (this) {
+      case WaitType.self:
+        return 'Self-Start';
+      default:
+        throw Exception('Internal: bad WaitType on .fullName');
+    }
+  }
+}
+
 class WaitForStartActionPlan implements EvacActionPlan {
-  static EvacActionType actionType = EvacActionType.waitForStart;
+  @override
+  final EvacActionType actionType = EvacActionType.waitForStart;
+  @override
   final String actionID;
   WaitType waitType;
   // are the following ever needed?
   // final String practiceEvacTaskID;
   // String? text;
 
-  WaitForStartActionPlan(actionID, {waitType})
+  WaitForStartActionPlan({actionID, waitType})
       : waitType = waitType ?? WaitType.self,
         actionID = actionID ?? const Uuid().v4();
 
@@ -41,7 +54,8 @@ class WaitForStartActionPlan implements EvacActionPlan {
       default:
         thisWaitType = WaitType.self;
     }
-    return WaitForStartActionPlan(json['actionID'], waitType: thisWaitType);
+    return WaitForStartActionPlan(
+        actionID: json['actionID'], waitType: thisWaitType);
   }
 
   @override

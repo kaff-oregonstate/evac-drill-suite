@@ -11,9 +11,25 @@ enum EvacActionType {
   // ¿compeletion?
 }
 
+extension EvacActionName on EvacActionType {
+  String get fullName {
+    switch (this) {
+      case EvacActionType.waitForStart:
+        return 'Wait For Start Action';
+      case EvacActionType.instruction:
+        return 'Instruction Action';
+      default:
+        throw Exception('Internal: bad EvacActionType on .fullName');
+    }
+  }
+}
+
 abstract class EvacActionPlan {
   Map<String, dynamic> toJson();
   List<MissingPlanParam> paramsMissing();
+
+  String get actionID;
+  EvacActionType get actionType;
 
   factory EvacActionPlan.fromJson(Map<String, dynamic> actionJson) {
     switch (actionJson['actionType'] as String) {

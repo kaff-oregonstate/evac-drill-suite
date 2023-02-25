@@ -2,7 +2,9 @@ import 'package:evac_drill_console/models/evac_action_plans/evac_action_plan.dar
 import 'package:uuid/uuid.dart';
 
 class InstructionActionPlan implements EvacActionPlan {
-  static EvacActionType actionType = EvacActionType.instruction;
+  @override
+  final EvacActionType actionType = EvacActionType.instruction;
+  @override
   final String actionID;
   String? text;
 
@@ -38,7 +40,7 @@ class InstructionActionPlan implements EvacActionPlan {
   @override
   List<MissingPlanParam> paramsMissing() {
     if (text == null || text!.isEmpty) {
-      return [MissingPlanParam('$actionID.text')];
+      return [MissingPlanParam('instruction.text')];
     }
     return [];
   }
