@@ -7,19 +7,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// bool shouldUseFirebaseEmulator = false;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // if (shouldUseFirebaseEmulator) {
-  //   await _auth.useAuthEmulator('localhost', 9099);
-  // }
 
-  await FlutterFlowTheme.initialize();
+  await FFTheme.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
 
@@ -41,7 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+  ThemeMode _themeMode = FFTheme.themeMode;
 
   late Stream<FfEvacDrillConsoleProtoFirebaseUser> userStream;
 
@@ -72,13 +67,13 @@ class _MyAppState extends State<MyApp> {
 
   void setThemeMode(ThemeMode mode) => setState(() {
         _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
+        FFTheme.saveThemeMode(mode);
       });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Practice-Evacuation-Drill-Console',
+      title: 'Evacuation Drill Console',
       supportedLocales: const [
         Locale('en'),
       ],
