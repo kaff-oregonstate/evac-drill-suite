@@ -2,6 +2,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'flutter_flow_theme.dart';
+
 class FFButtonOptions {
   const FFButtonOptions({
     this.textStyle,
@@ -163,6 +165,45 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
         onPressed: onPressed,
         style: style,
         child: textWidget,
+      ),
+    );
+  }
+}
+
+class DefaultFFButton extends StatelessWidget {
+  final String text;
+  final Function() onPressed;
+  final Icon? icon;
+  final double? width;
+  final Color? color;
+  const DefaultFFButton(
+    this.text,
+    this.onPressed, {
+    super.key,
+    this.icon,
+    this.width,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FFButtonWidget(
+      onPressed: onPressed,
+      text: text,
+      icon: icon,
+      options: FFButtonOptions(
+        width: width ?? 296,
+        height: 40,
+        color: color ?? FFTheme.of(context).primaryColor,
+        textStyle: FFTheme.of(context).subtitle2.override(
+              fontFamily: 'Space Grotesk',
+              color: FFTheme.of(context).primaryBtnText,
+            ),
+        borderSide: const BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(8),
       ),
     );
   }

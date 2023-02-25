@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 const kThemeModeKey = '__theme_mode__';
 Box? _userPrefsBox;
 
-abstract class FlutterFlowTheme {
+abstract class FFTheme {
   static Future initialize() async =>
       _userPrefsBox = await Hive.openBox('userPrefs');
 
@@ -24,7 +24,7 @@ abstract class FlutterFlowTheme {
       ? _userPrefsBox?.delete(kThemeModeKey)
       : _userPrefsBox?.put(kThemeModeKey, mode == ThemeMode.dark);
 
-  static FlutterFlowTheme of(BuildContext context) =>
+  static FFTheme of(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? DarkModeTheme()
           : LightModeTheme();
@@ -45,6 +45,7 @@ abstract class FlutterFlowTheme {
   late Color customColor3;
   late Color customColor1;
   late Color backgroundComponents;
+  late Color awesomeOrange;
 
   String get title1Family => typography.title1Family;
   TextStyle get title1 => typography.title1;
@@ -64,7 +65,7 @@ abstract class FlutterFlowTheme {
   Typography get typography => ThemeTypography(this);
 }
 
-class LightModeTheme extends FlutterFlowTheme {
+class LightModeTheme extends FFTheme {
   late Color primaryColor = const Color(0xFF4B39EF);
   late Color secondaryColor = const Color(0xFF4B39EF);
   late Color tertiaryColor = const Color(0xFFDBE2E7);
@@ -81,6 +82,7 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color customColor3 = const Color(0xFFDF3F3F);
   late Color customColor1 = const Color(0xFF2FB73C);
   late Color backgroundComponents = const Color(0xFF1D2428);
+  late Color awesomeOrange = const Color(0xFFD64C06);
 }
 
 abstract class Typography {
@@ -103,7 +105,7 @@ abstract class Typography {
 class ThemeTypography extends Typography {
   ThemeTypography(this.theme);
 
-  final FlutterFlowTheme theme;
+  final FFTheme theme;
 
   String get title1Family => 'Outfit';
   TextStyle get title1 => GoogleFonts.getFont(
@@ -156,7 +158,7 @@ class ThemeTypography extends Typography {
       );
 }
 
-class DarkModeTheme extends FlutterFlowTheme {
+class DarkModeTheme extends FFTheme {
   late Color primaryColor = const Color(0xFF4B39EF);
   late Color secondaryColor = const Color(0xFFFFFFFF);
   late Color tertiaryColor = const Color(0xFF262D34);
@@ -173,6 +175,7 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color customColor3 = const Color(0xFFDF3F3F);
   late Color customColor1 = const Color(0xFF452FB7);
   late Color backgroundComponents = const Color(0xFF1D2428);
+  late Color awesomeOrange = const Color(0xFFD64C06);
 }
 
 extension TextStyleHelper on TextStyle {
